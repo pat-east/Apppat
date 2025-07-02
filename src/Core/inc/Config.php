@@ -1,7 +1,7 @@
 <?php
 
 class Config {
-    public function init() {
+    public function init(): void {
 
     }
 }

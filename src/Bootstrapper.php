@@ -12,7 +12,7 @@ class Bootstrapper {
 
     }
 
-    public function boot() {
+    public function boot(): void {
         new Defaults()->init();
         new Config()->init();
         new Logger()->init();
