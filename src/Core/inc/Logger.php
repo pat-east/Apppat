@@ -19,6 +19,8 @@ enum LogLevel {
     }
 }
 
+class Log extends Logger { }
+
 class Logger {
 
     public static function Info(string $sender, string $fmt, mixed ...$values): void {
