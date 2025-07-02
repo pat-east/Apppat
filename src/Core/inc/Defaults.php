@@ -1,11 +1,11 @@
 <?php
 
-define('ABSPATH', realpath(dirname(__FILE__). '/../..'));
+define('__ABSPATH__', realpath(dirname(__FILE__). '/../..'));
 
 class Defaults {
 
     const VERSION = '0.0.1';
-    const ABSPATH = ABSPATH;
+    const ABSPATH = __ABSPATH__;
     const LOGS_PATH = self::ABSPATH.'/.logs';
     const LOG_FILE = self::LOGS_PATH.'/log.txt';
 
