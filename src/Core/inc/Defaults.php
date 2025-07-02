@@ -13,6 +13,6 @@ class Defaults {
         if(!is_dir(self::LOGS_PATH)) {
             mkdir(self::LOGS_PATH);
         }
-
     }
+
 }
