@@ -8,7 +8,7 @@
 </head>
 <body>
     <main>
-        <h1>About Apppat</h1>
+        <h1>404 - Seite nicht gefunden</h1>
 
     </main>
 </body>

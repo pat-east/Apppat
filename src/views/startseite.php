@@ -7,9 +7,8 @@
     <title>Apppat</title>
 </head>
 <body>
-    <main>
-        <h1>About Apppat</h1>
-
-    </main>
+<main>
+    <h1>Startseite</h1>
+</main>
 </body>
 </html>

@@ -19,4 +19,5 @@ class Bootstrapper {
         new Core()->init();
 
     }
+
 }

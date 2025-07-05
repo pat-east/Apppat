@@ -27,6 +27,10 @@ class Logger {
         self::Log($sender, LogLevel::Info, $fmt, $values);
     }
 
+    public static function Error(string $sender, string $fmt, mixed ...$values): void {
+        self::Log($sender, LogLevel::Error, $fmt, $values);
+    }
+
     public static function Log(string $sender, LogLevel $lvl, string $fmt, array $args = []): void {
         $ms = sprintf("[%s] %s: %s\r\n", $lvl->toString(), basename($sender), vsprintf($fmt, $args));
         error_log($ms);

@@ -8,7 +8,7 @@
 </head>
 <body>
     <main>
-        <h1>About Apppat</h1>
+        <h1>500 - Oooops...</h1>
 
     </main>
 </body>

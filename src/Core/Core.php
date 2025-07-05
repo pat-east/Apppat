@@ -1,7 +1,41 @@
 <?php
 
+include_once('inc/Router.php');
+include_once('inc/ErrorHandler.php');
+
 class Core {
-    public function init(): void {
-        Logger::Info(__FILE__, "Core initialized [version=%s]", Defaults::VERSION);
+
+    static Core $Instance;
+
+    var ErrorHandler $errorHandler;
+    var Router $router;
+
+
+    function __construct() {
+        if(isset(self::$Instance)) {
+            Log::Info(__FILE__, "Core already initialized [version=%s]", Defaults::VERSION);
+            return;
+        }
+        self::$Instance = $this;
+        $this->errorHandler = new ErrorHandler();
+        $this->router = new Router();
     }
+
+    public function init(): void {
+        $this->errorHandler->init();
+        $this->router->init();
+
+//        Log::Info(__FILE__, "Core initialized [version=%s]", Defaults::VERSION);
+    }
+
+    public function run(): void {
+        try {
+            $this->router->route();
+        } catch(Throwable $e) {
+            $this->errorHandler->handleException($e);
+        }
+    }
+
+
+
 }
