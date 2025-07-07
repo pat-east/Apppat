@@ -24,6 +24,10 @@ class Router {
 
     function route(): void {
 
+//        throw new Error('Something went wrong');
+//        trigger_error('Something went wrong!', E_USER_ERROR);
+//        sleep(61);
+
         $requestUri = '/';
         if(isset($_SERVER['REQUEST_URI'])) {
             $requestUri = $_SERVER['REQUEST_URI'];

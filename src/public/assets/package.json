@@ -1,0 +1,16 @@
+{
+  "name": "app-assets",
+  "version": "1.0.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pat-east/Apppat.git"
+  },
+  "private": true,
+  "dependencies": {
+    "@kern-ux/components": "^1.5.14",
+    "bootstrap": "^5.3.7",
+    "jquery": "^3.7.1",
+    "uikit": "^3.23.11"
+  }
+}

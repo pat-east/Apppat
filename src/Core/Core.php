@@ -2,14 +2,14 @@
 
 include_once('inc/Router.php');
 include_once('inc/ErrorHandler.php');
+include_once('inc/AssetManager.php');
 
 class Core {
 
     static Core $Instance;
-
     var ErrorHandler $errorHandler;
     var Router $router;
-
+    var AssetManager $assetsManager;
 
     function __construct() {
         if(isset(self::$Instance)) {
@@ -19,11 +19,13 @@ class Core {
         self::$Instance = $this;
         $this->errorHandler = new ErrorHandler();
         $this->router = new Router();
+        $this->assetsManager = new AssetManager();
     }
 
     public function init(): void {
         $this->errorHandler->init();
         $this->router->init();
+        $this->assetsManager->init();
 
 //        Log::Info(__FILE__, "Core initialized [version=%s]", Defaults::VERSION);
     }
@@ -35,7 +37,5 @@ class Core {
             $this->errorHandler->handleException($e);
         }
     }
-
-
 
 }

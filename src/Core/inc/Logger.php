@@ -31,6 +31,15 @@ class Logger {
         self::Log($sender, LogLevel::Error, $fmt, $values);
     }
 
+    public static function Object(string $sender, mixed $object): void {
+        ob_start();
+        var_dump($object);
+        $out = ob_get_clean();
+
+        self::Log($sender, LogLevel::Info, $out);
+
+    }
+
     public static function Log(string $sender, LogLevel $lvl, string $fmt, array $args = []): void {
         $ms = sprintf("[%s] %s: %s\r\n", $lvl->toString(), basename($sender), vsprintf($fmt, $args));
         error_log($ms);

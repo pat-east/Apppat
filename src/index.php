@@ -1,7 +1,7 @@
 <?php
 
-require_once('Bootstrapper.php');
+require_once('App.php');
 
-$bootstrapper = new Bootstrapper();
-$bootstrapper->boot();
-Core::$Instance->run();
+$app = new App();
+$app->init();
+$app->run();
