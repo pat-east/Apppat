@@ -8,9 +8,10 @@
     <?php Core::$Instance->assetsManager->includeStyles(); ?>
 </head>
 <body>
-<main>
-    <h1>Startseite</h1>
+    <main>
+        <h1>Startseite</h1>
+
+    </main>
     <?php Core::$Instance->assetsManager->includeScripts(); ?>
-</main>
 </body>
 </html>

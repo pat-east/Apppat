@@ -7,7 +7,7 @@ class Router {
     /** @var Route[] */
     var array $routes = [];
 
-    function __construct() {
+    public function __construct() {
 
     }
 

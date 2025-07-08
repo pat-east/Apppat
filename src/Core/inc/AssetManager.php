@@ -12,33 +12,13 @@ class AssetManager {
     /** @var Asset[]  */
     var array $usingAssets;
 
-    function __construct() {
+    public function __construct() {
         $this->registeredAssets = [];
         $this->usingAssets = [];
     }
 
     public function init(): void {
 
-    }
-
-    /**
-     * @param string $assetUid
-     * @param string $version
-     * @throws Exception
-     */
-    public function use(string $assetUid, string $version = self::LatestVersion): void {
-        if(!isset($this->registeredAssets[$assetUid . ':' . $version])) {
-            throw new Exception(sprintf('Asset not found [uid=%s]', $assetUid));
-        }
-
-        foreach($this->registeredAssets[$assetUid . ':' . $version] as $asset) {
-            foreach($asset->requiredAssetUids as $assetUid) {
-                $parts = explode(':', $assetUid);
-                // TODO Eliminate potentially dangerous recursion
-                $this->use($parts[0], $parts[1]);
-            }
-            $this->usingAssets[] = $asset;
-        }
     }
 
     /**
@@ -72,6 +52,26 @@ class AssetManager {
             }, $requiredAssetUids);
 
         $this->registeredAssets[$assetUid . ':' . $version][] = new Asset($assetUid, $scriptPath, $type, $required, $version);
+    }
+
+    /**
+     * @param string $assetUid
+     * @param string $version
+     * @throws Exception
+     */
+    public function use(string $assetUid, string $version = self::LatestVersion): void {
+        if(!isset($this->registeredAssets[$assetUid . ':' . $version])) {
+            throw new Exception(sprintf('Asset not found [uid=%s]', $assetUid));
+        }
+
+        foreach($this->registeredAssets[$assetUid . ':' . $version] as $asset) {
+            foreach($asset->requiredAssetUids as $assetUid) {
+                $parts = explode(':', $assetUid);
+                // TODO Eliminate potentially dangerous recursion
+                $this->use($parts[0], $parts[1]);
+            }
+            $this->usingAssets[] = $asset;
+        }
     }
 
     public function includeStyles(): void {

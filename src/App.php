@@ -6,7 +6,7 @@ class App {
 
     var Core $core;
 
-    function __construct() {
+    public function __construct() {
         $bootstrapper = new Bootstrapper();
         $this->core = $bootstrapper->boot();
     }

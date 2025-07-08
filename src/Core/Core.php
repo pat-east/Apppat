@@ -11,7 +11,7 @@ class Core {
     var Router $router;
     var AssetManager $assetsManager;
 
-    function __construct() {
+    public function __construct() {
         if(isset(self::$Instance)) {
             Log::Info(__FILE__, "Core already initialized [version=%s]", Defaults::VERSION);
             return;
