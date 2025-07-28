@@ -3,14 +3,18 @@
 class Route {
 
     var string $route;
-    var string $view;
+    var string $viewClassName;
 
-    function __construct(string $route, string $view) {
+    /**
+     * @param class-string $viewClassName
+     */
+    function __construct(string $route, string $viewClassName) {
         $this->route = $route;
-        $this->view = $view;
+        $this->viewClassName = $viewClassName;
     }
 
-    function matchesRequestUri($requestURI) {
+    function matchesRequestUri($requestURI): bool
+    {
         if($requestURI == $this->route) {
             return true;
         }

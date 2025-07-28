@@ -18,7 +18,7 @@ class AssetManager {
     }
 
     public function init(): void {
-
+        $this->registerDefaultScriptsAndStyles();
     }
 
     /**
@@ -92,4 +92,42 @@ class AssetManager {
         }
     }
 
+    private function registerDefaultScriptsAndStyles(): void {
+        $this->registerStyle(
+            'kernux',
+            '/public/assets/node_modules/@kern-ux/native/dist/kern.min.css');
+        $this->registerStyle(
+            'kernux',
+            '/public/assets/node_modules/@kern-ux/native/dist/fonts/fira-sans.css');
+
+        $this->registerScript(
+            'jquery',
+            '/public/assets/node_modules/jquery/dist/jquery.min.js');
+
+        $this->registerScript(
+            'bootstrap',
+            '/public/assets/dist/bootstrap-4.1.3-dist/js/bootstrap.min.js',
+            ['jquery'], '4.1.3');
+        $this->registerStyle(
+            'bootstrap',
+            '/public/assets/dist/bootstrap-4.1.3-dist/css/bootstrap.min.css',
+            [], '4.1.3');
+
+        $this->registerScript(
+            'bootstrap',
+            '/public/assets/node_modules/bootstrap/dist/js/bootstrap.min.js');
+        $this->registerStyle(
+            'bootstrap',
+            '/public/assets/node_modules/bootstrap/dist/css/bootstrap.min.css');
+
+        $this->registerScript(
+            'uikit',
+            '/public/assets/node_modules/uikit/dist/js/uikit.min.js');
+        $this->registerScript(
+            'uikit',
+            '/public/assets/node_modules/uikit/dist/js/uikit-icons.min.js');
+        $this->registerStyle(
+            'uikit',
+            '/public/assets/node_modules/uikit/dist/css/uikit.min.css');
+    }
 }
