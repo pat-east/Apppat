@@ -4,8 +4,7 @@ include_once('inc/Router.php');
 include_once('inc/ErrorHandler.php');
 include_once('inc/AssetManager.php');
 include_once('inc/ThemeManager.php');
-
-include_once('inc/View.php');
+include_once('inc/ControllerManager.php');
 
 class Core {
 
@@ -14,6 +13,7 @@ class Core {
     var Router $router;
     var AssetManager $assetsManager;
     var ThemeManager $themeManager;
+    var ControllerManager $controllerManager;
 
     public function __construct() {
         if(isset(self::$Instance)) {
@@ -25,6 +25,7 @@ class Core {
         $this->router = new Router();
         $this->assetsManager = new AssetManager();
         $this->themeManager = new ThemeManager();
+        $this->controllerManager = new ControllerManager();
     }
 
     public function init(): void {
@@ -32,6 +33,7 @@ class Core {
         $this->router->init();
         $this->assetsManager->init();
         $this->themeManager->init();
+        $this->controllerManager->init($this);
 
 //        Log::Info(__FILE__, "Core initialized [version=%s]", Defaults::VERSION);
     }

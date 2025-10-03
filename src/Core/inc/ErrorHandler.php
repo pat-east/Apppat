@@ -21,7 +21,7 @@ class ErrorHandler {
     private function handleError(int $errno, string $errstr, string $errfile, int $errline): never {
         Log::Error(__FILE__, $errstr);
         http_response_code(500);
-        include_once(Defaults::ABSPATH . '/views/500.php');
+        include_once(Defaults::ABSPATH . '/Views/500.php');
         exit;
     }
 

@@ -9,7 +9,6 @@ class HomeView extends View {
                 <h1>Home</h1>
             </div>
         </div>
-
         <?php
     }
 }

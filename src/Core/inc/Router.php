@@ -43,7 +43,7 @@ class Router {
 
         http_response_code(404);
         // TODO refactor me. This should also return a Route-instance instead of including some hard-coded 404.php
-        include_once(Defaults::ABSPATH . '/views/404.php');
+        include_once(Defaults::ABSPATH . '/Views/404.php');
         exit;
     }
 

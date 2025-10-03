@@ -6,6 +6,7 @@ class Defaults {
 
     const VERSION = '0.0.1';
     const ABSPATH = __ABSPATH__;
+    const APPSPATH = __ABSPATH__ . '/App';
     const LOGS_PATH = self::ABSPATH . '/.logs';
     const LOG_FILE = self::LOGS_PATH . '/log.txt';
 
