@@ -1,5 +1,6 @@
 <?php
 
+include_once('inc/Sanitize.php');
 include_once('inc/Router.php');
 include_once('inc/ErrorHandler.php');
 include_once('inc/AssetManager.php');

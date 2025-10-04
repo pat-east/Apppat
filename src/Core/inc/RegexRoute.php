@@ -1,10 +1,6 @@
 <?php
 
-use MongoDB\BSON\Regex;
-
 class RegexRoute extends Route {
-
-
 
     /**
      * @param class-string $viewClassName
@@ -15,11 +11,10 @@ class RegexRoute extends Route {
 
     function matchesRequestUri($requestURI): bool {
 
-
         if(preg_match($this->route, $requestURI, $this->args)) {
+            $this->args = Sanitize::dictOfString($this->args);
             return true;
         }
-
 
         if($requestURI == $this->route . '/') {
             return true;
@@ -27,5 +22,4 @@ class RegexRoute extends Route {
 
         return false;
     }
-
 }
