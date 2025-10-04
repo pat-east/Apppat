@@ -18,7 +18,7 @@ class UserModel extends Model {
         return $this->loadUsers();
     }
 
-    public function getByUsername(string $username) : UserModel {
+    public function getByUsername(string $username) : UserModel|null {
         return array_find($this->loadUsers(), function(UserModel $user) use($username) {
             return $user->username === $username;
         });
