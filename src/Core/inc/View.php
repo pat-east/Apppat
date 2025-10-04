@@ -2,8 +2,10 @@
 
 abstract class View {
 
-    public function __construct() {
+    var array $args = [];
 
+    public function __construct(array $args) {
+        $this->args = $args;
     }
 
     abstract public function render(): void;

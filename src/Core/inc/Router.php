@@ -1,6 +1,7 @@
 <?php
 
 include_once('Route.php');
+include_once('RegexRoute.php');
 
 class Router {
 

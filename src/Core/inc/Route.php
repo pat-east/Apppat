@@ -5,19 +5,28 @@ class Route {
     var string $route;
     var string $viewClassName;
 
+    var array $args = [];
+
     /**
      * @param class-string $viewClassName
      */
-    function __construct(string $route, string $viewClassName) {
+    public function __construct(string $route, string $viewClassName) {
         $this->route = $route;
         $this->viewClassName = $viewClassName;
     }
 
-    function matchesRequestUri($requestURI): bool
-    {
+    public function getRequestArguments(): array {
+        return $this->args;
+    }
+
+    public function matchesRequestUri($requestURI): bool {
+
+        if(!$requestURI) { return false; }
+
         if($requestURI == $this->route) {
             return true;
         }
+
         if($requestURI == $this->route . '/') {
             return true;
         }
