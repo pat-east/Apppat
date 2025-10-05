@@ -8,17 +8,20 @@ enum HttpMethod {
     case Head;
     case Option;
 
-    public static function MatchesRequestUri(HttpMethod $method): bool {
+    public function matchesRequestUri(): bool {
+        return isset($_SERVER['REQUEST_METHOD']) && $this->toString() == $_SERVER['REQUEST_METHOD'];
+    }
 
-        switch($_SERVER['REQUEST_METHOD']) {
-            case 'GET': return $method == HttpMethod::Get;
-            case 'POST': return $method == HttpMethod::Post;
-            case 'PUT': return $method == HttpMethod::Put;
-            case 'DELETE': return $method == HttpMethod::Delete;
-            case 'HEAD': return $method == HttpMethod::Head;
-            case 'OPTION': return $method == HttpMethod::Option;
-            default: return false;
-        }
+    public function toString(): string
+    {
+        return match($this) {
+            HttpMethod::Get => 'GET',
+            HttpMethod::Post => 'POST',
+            HttpMethod::Put => 'PUT',
+            HttpMethod::Delete => 'DELETE',
+            HttpMethod::Head => 'HEAD',
+            HttpMethod::Option => 'OPTION'
+        };
     }
 }
 

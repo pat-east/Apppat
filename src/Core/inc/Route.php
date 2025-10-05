@@ -29,7 +29,7 @@ abstract class Route {
     }
 
     public function matchesRequestMethod(): bool {
-        return HttpMethod::MatchesRequestUri($this->method);
+        return $this->method->matchesRequestUri();
     }
 
     protected abstract function _matchesRequestUri(string $requestURI): bool;
