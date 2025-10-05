@@ -7,6 +7,7 @@ include_once('inc/AssetManager.php');
 include_once('inc/ThemeManager.php');
 include_once('inc/ModelManager.php');
 include_once('inc/ControllerManager.php');
+include_once('Setup/Setup.php');
 
 class Core {
 
@@ -17,6 +18,7 @@ class Core {
     var ThemeManager $themeManager;
     var ModelManager $modelManager;
     var ControllerManager $controllerManager;
+    var Setup $setup;
 
     public function __construct() {
         if(isset(self::$Instance)) {
@@ -30,6 +32,7 @@ class Core {
         $this->themeManager = new ThemeManager();
         $this->modelManager = new ModelManager();
         $this->controllerManager = new ControllerManager();
+        $this->setup = new Setup($this);
     }
 
     public function init(): void {
@@ -45,12 +48,24 @@ class Core {
         // And now we initialize those ...
         $this->modelManager->init();
         $this->controllerManager->init($this);
+        $this->setup->init();
 
 //        Log::Info(__FILE__, "Core initialized [version=%s]", Defaults::VERSION);
     }
 
     public function run(): void {
         try {
+
+            // Setup
+            if(!$this->setup->isSetUp()) { $this->setup->runSetUp(); }
+            else {
+                // If user accesses /setup-page and all tests pass, redirect the user to /
+                if($_SERVER['REQUEST_URI'] == '/setup' && $this->setup->isSetUp()) {
+                    header('Location: /');
+                    exit;
+                }
+            }
+
             $route = $this->router->route();
             $view = new ($route->viewClassName)($route->getRequestArguments());
             if(!$this->themeManager->theme) {
@@ -62,5 +77,7 @@ class Core {
             $this->errorHandler->handleException($e);
         }
     }
+
+
 
 }

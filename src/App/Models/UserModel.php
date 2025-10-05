@@ -56,7 +56,6 @@ class UserModel extends Model {
             $users[] = $user;
         }
 
-
         return $users;
     }
 }
