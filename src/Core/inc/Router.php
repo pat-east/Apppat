@@ -1,7 +1,7 @@
 <?php
 
 include_once('Route.php');
-include_once('RegexRoute.php');
+include_once('HttpResult.php');
 
 class Router {
 
@@ -13,6 +13,8 @@ class Router {
     }
 
     public function init(): void {
+        Helper::IncludeOnce(Defaults::ABSPATH . '/Core/inc/Routes', true);
+        Helper::IncludeOnce(Defaults::ABSPATH . '/Core/inc/HttpResults', true);
     }
 
     public function registerRoute(Route $route): void {

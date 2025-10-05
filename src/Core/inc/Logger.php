@@ -36,7 +36,7 @@ class Logger {
         var_dump($object);
         $out = ob_get_clean();
 
-        self::Log($sender, LogLevel::Info, $out);
+        self::Log($sender, LogLevel::Info, trim($out));
 
     }
 

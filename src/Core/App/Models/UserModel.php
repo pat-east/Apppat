@@ -1,25 +1,29 @@
 <?php
 
-class UserModel extends Model {
+class UserModel extends Model
+{
 
     var string $username;
     var string $firstname;
     var string $lastname;
     var string $email;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
     /**
      * @return array[UserModel]
      */
-    public function getAll() : array {
+    public function getAll(): array
+    {
         return $this->loadUsers();
     }
 
-    public function getByUsername(string $username) : UserModel|null {
-        return array_find($this->loadUsers(), function(UserModel $user) use($username) {
+    public function getByUsername(string $username): UserModel|null
+    {
+        return array_find($this->loadUsers(), function (UserModel $user) use ($username) {
             return $user->username === $username;
         });
     }
@@ -27,7 +31,8 @@ class UserModel extends Model {
     /**
      * @return UserModel[]
      */
-    private function loadUsers() : array {
+    private function loadUsers(): array
+    {
 
         $json = '
         [
@@ -47,7 +52,7 @@ class UserModel extends Model {
         ';
 
         $users = [];
-        foreach(json_decode($json) as $userFromJson) {
+        foreach (json_decode($json) as $userFromJson) {
             $user = new UserModel();
             $user->username = $userFromJson->username;
             $user->firstname = $userFromJson->firstname;

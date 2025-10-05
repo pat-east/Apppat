@@ -1,5 +1,6 @@
 <?php
 
+require_once('inc/Http.php');
 require_once('inc/Helper.php');
 require_once('inc/Defaults.php');
 require_once('inc/Config.php');

@@ -1,18 +1,21 @@
 <?php
 
-class Route {
+abstract class Route {
 
     var string $route;
-    var string $viewClassName;
+    var HttpMethod $method;
 
+    /** @var Closure(array<string, string>) : HttpResult */
+    var \Closure $httpResultHandler;
     var array $args = [];
 
     /**
-     * @param class-string $viewClassName
+     * @param \Closure(array<string, string>): HttpResult $handler
      */
-    public function __construct(string $route, string $viewClassName) {
+    public function __construct(string $route, \Closure $handler, HttpMethod $method = HttpMethod::Get) {
         $this->route = $route;
-        $this->viewClassName = $viewClassName;
+        $this->httpResultHandler = $handler;
+        $this->method = $method;
     }
 
     public function getRequestArguments(): array {
@@ -20,18 +23,14 @@ class Route {
     }
 
     public function matchesRequestUri($requestURI): bool {
-
         if(!$requestURI) { return false; }
-
-        if($requestURI == $this->route) {
-            return true;
-        }
-
-        if($requestURI == $this->route . '/') {
-            return true;
-        }
-
-        return false;
+        if(!$this->matchesRequestMethod()) { return false; }
+        return $this->_matchesRequestUri($requestURI);
     }
 
+    public function matchesRequestMethod(): bool {
+        return HttpMethod::MatchesRequestUri($this->method);
+    }
+
+    protected abstract function _matchesRequestUri(string $requestURI): bool;
 }

@@ -50,29 +50,19 @@ class UikitTheme extends Theme
         <nav class="uk-navbar-container">
             <div class="uk-container">
                 <div uk-navbar>
-
                     <div class="uk-navbar-center">
-
                         <div class="uk-navbar-center-left">
                             <ul class="uk-navbar-nav">
-                                <li class="uk-active"><a href="#">Active</a></li>
-                                <li>
-                                    <a href="#">Parent</a>
-                                    <div class="uk-navbar-dropdown">
-                                        <ul class="uk-nav uk-navbar-dropdown-nav">
-                                            <li class="uk-active"><a href="#">Active</a></li>
-                                            <li><a href="#">Item</a></li>
-                                            <li><a href="#">Item</a></li>
-                                        </ul>
-                                    </div>
-                                </li>
+                                <li class="uk-active"><a href="/user">Users</a></li>
                             </ul>
                         </div>
-                        <a class="uk-navbar-item uk-logo" href="#">Logo</a>
+                        <a class="uk-navbar-item uk-logo" href="/">
+                            <span uk-icon="icon: heart; ratio: 1.5"></span>
+                        </a>
                         <div class="uk-navbar-center-right">
                             <ul class="uk-navbar-nav">
-                                <li><a href="#">Item</a></li>
-                                <li><a href="#">Item</a></li>
+                                <li><a href="/about">About</a></li>
+                                <li><a href="/contact">Contact</a></li>
                             </ul>
                         </div>
 
@@ -83,13 +73,13 @@ class UikitTheme extends Theme
         </nav>
         <div class="uk-section uk-section-muted ">
             <div class="uk-container">
-
                 <div class="uk-grid-match uk-child-width-1-2@m" uk-grid>
                     <div class="uk-text-center uk-flex-middle">
                         <p><span uk-icon="icon: image; ratio: 5"></span></p>
                     </div>
                     <div>
-                        <p class="uk-text-lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+                        <p class="uk-text-lead">Welcome to <i><?= Defaults::APPTITLE ?></i></p>
+                        <p class="uk-text-emphasis">This is a modern application framework written in PHP</p>
                     </div>
                 </div>
 

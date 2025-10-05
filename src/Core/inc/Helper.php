@@ -19,13 +19,22 @@ class Helper {
 
     static function __(string $path, bool $recursivly, Callable $handler): void {
         if(!$recursivly) {
-            include_once($path);
+            if(is_dir($path)) {
+                $filesWithinFolder = scandir($path);
+                foreach($filesWithinFolder as $file) {
+                    if(!str_starts_with($file, '.')) {
+                        $handler($path);
+                    }
+                }
+            } else {
+                $handler($path);
+            }
         } else {
             if(is_dir($path)) {
                 $filesWithinFolder = scandir($path);
                 foreach($filesWithinFolder as $file) {
                     if(!str_starts_with($file, '.')) {
-                        self::IncludeOnce($path . '/' . $file, true);
+                        self::IncludeOnce($path . '/' . $file, $recursivly);
                     }
                 }
             } else {

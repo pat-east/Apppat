@@ -41,6 +41,9 @@ class Core {
         $this->assetsManager->init();
         $this->themeManager->init();
 
+        /* All build-in app logic is inside /Core/App-folder.
+         * We now include all the files within that folder recursively. */
+        Helper::IncludeOnce(Defaults::APPSBUILDINPATH, true);
         /* All the app logic is inside /App-folder.
          * We now include all the files within that folder recursively. */
         Helper::IncludeOnce(Defaults::APPSPATH, true);
@@ -67,11 +70,9 @@ class Core {
             }
 
             $route = $this->router->route();
-            $view = new ($route->viewClassName)($route->getRequestArguments());
-            if(!$this->themeManager->theme) {
-                throw new Exception('Theme not set. Please define a theme using Core::themeManager->useTheme().');
-            }
-            $this->themeManager->theme->render($view);
+            $handler = $route->httpResultHandler;
+            $httpResult = $handler($route->getRequestArguments());
+            $httpResult->run($route);
 
         } catch(Throwable $e) {
             $this->errorHandler->handleException($e);

@@ -1,15 +1,15 @@
 <?php
 
-class RegexRoute extends Route {
+class RegexViewRoute extends Route {
 
     /**
      * @param class-string $viewClassName
      */
-    function __construct(string $route, string $viewClassName) {
-        parent::__construct($route, $viewClassName);
+    public function __construct(string $route, string $viewClassName) {
+        parent::__construct($route, function() use($viewClassName) { return new ViewHttpResult($viewClassName); }, HttpMethod::Get);
     }
 
-    function matchesRequestUri($requestURI): bool {
+    public function _matchesRequestUri(string $requestURI): bool {
 
         if(preg_match($this->route, $requestURI, $this->args)) {
             $this->args = Sanitize::dictOfString($this->args);
