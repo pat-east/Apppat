@@ -7,8 +7,16 @@ class SetupTest {
     var string $testPassedHint;
     var string $testNotPassedHint;
 
+    /** @var Closure() : bool */
     var \Closure $testHandler;
 
+    /**
+     * @param string $title
+     * @param string $description
+     * @param string $testPassedHint
+     * @param string $testNotPassedHint
+     * @param Closure():bool $testHandler
+     */
     public function __construct(
         string $title, string $description,
         string $testPassedHint, string $testNotPassedHint,
@@ -19,10 +27,9 @@ class SetupTest {
         $this->testPassedHint = $testPassedHint;
         $this->testNotPassedHint = $testNotPassedHint;
         $this->testHandler = $testHandler;
-
     }
 
-    public function testPassed() {
+    public function testPassed() : bool {
         $handler = $this->testHandler;
         return $handler();
     }

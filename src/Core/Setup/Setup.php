@@ -4,7 +4,6 @@ include_once(Defaults::THEMESPATH . '/SetupTheme/SetupTheme.php');
 include_once('inc/SetupTestRepository.php');
 include_once('SetupController.php');
 
-
 class Setup {
 
     var Core $core;

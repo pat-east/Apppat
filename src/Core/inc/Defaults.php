@@ -7,6 +7,7 @@ class Defaults {
     const VERSION = '0.0.1';
     const APPTITLE = 'AppPat';
     const ABSPATH = __ABSPATH__;
+    const DOTENVPATH = __ABSPATH__ . '/.env';
     const APPSPATH = __ABSPATH__ . '/App';
     const THEMESPATH = __ABSPATH__ . '/Themes';
     const SETUPPATH = __ABSPATH__ . '/Core/Setup';

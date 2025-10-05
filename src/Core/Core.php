@@ -56,7 +56,7 @@ class Core {
     public function run(): void {
         try {
 
-            // Setup
+            // Run setup if not already set up
             if(!$this->setup->isSetUp()) { $this->setup->runSetUp(); }
             else {
                 // If user accesses /setup-page and all tests pass, redirect the user to /
@@ -77,7 +77,4 @@ class Core {
             $this->errorHandler->handleException($e);
         }
     }
-
-
-
 }
