@@ -10,7 +10,7 @@ abstract class Route {
     var array $args = [];
 
     /**
-     * @param \Closure(array<string, string>): HttpResult $handler
+     * @param \Closure(HttpRequestContext): HttpResult $handler
      */
     public function __construct(string $route, \Closure $handler, HttpMethod $method = HttpMethod::Get) {
         $this->route = $route;
