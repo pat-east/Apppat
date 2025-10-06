@@ -13,7 +13,7 @@ class ContactModel extends Model {
         $this->name = $name;
         $this->email = $email;
         $this->message = $message;
-        $this->created_at = $created_at;
+        $this->created_at = $created_at ? $created_at : new DateTime();
         $this->id = $id;
     }
 
