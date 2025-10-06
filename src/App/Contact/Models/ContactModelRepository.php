@@ -1,6 +1,7 @@
 <?php
 
 class ContactModelRepository {
+    public const TABLE_NAME = 'contact';
 
     public static function Init(): void {
         $query = sprintf('CREATE TABLE IF NOT EXISTS %s%s(
@@ -13,8 +14,6 @@ class ContactModelRepository {
 
         MySqlClient::ExecuteQueryRaw($query);
     }
-
-    public const TABLE_NAME = 'contact';
 
     public function __construct() {
 
@@ -73,9 +72,4 @@ class ContactModelRepository {
 
         return $this->get($contactId);
     }
-
-    public function update(ContactModel $contact) {
-
-    }
 }
-

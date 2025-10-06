@@ -11,13 +11,13 @@ class MySqlClient {
         }
     }
 
-    public static function ExecuteQueryRaw(string $queryString): bool|mysqli_result {
+    public static function ExecuteQueryRaw(string $queryString): void {
         try {
             $conn = self::Connect();
-            return $conn->execute_query($queryString);
+            $conn->execute_query($queryString);
+            $conn->close();
         } catch(Exception $e) {
             Logger::Error(__FILE__, $e->getMessage());
-            return false;
         }
     }
 

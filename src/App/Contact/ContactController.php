@@ -7,10 +7,10 @@ class ContactController extends Controller {
         $this->registerRoute(new ViewRoute('/contact', ContactView::class));
         $this->registerRoute(new ViewRoute('/contact/inbox', ContactInboxView::class));
         $this->registerRoute(new ViewRoute('/contacted', ContactedView::class));
-        $this->registerRoute(new CtrlRoute('/contact', [ $this, 'Contact' ]));
+        $this->registerRoute(new CtrlRoute('/contact', [ $this, 'contact' ]));
     }
 
-    public function Contact(HttpRequestContext $request) : ViewHttpResult {
+    public function contact(HttpRequestContext $request) : ViewHttpResult {
 
         $args = $request->ParseArgs($_POST, [
             'name' => null,
