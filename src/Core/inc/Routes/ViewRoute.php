@@ -9,15 +9,6 @@ class ViewRoute extends Route {
     }
 
     public function _matchesRequestUri(string $requestURI): bool {
-
-        if($requestURI == $this->route) {
-            return true;
-        }
-
-        if($requestURI == $this->route . '/') {
-            return true;
-        }
-
-        return false;
+        return parent::_matchesAbsoluteRequestUri($requestURI);
     }
 }

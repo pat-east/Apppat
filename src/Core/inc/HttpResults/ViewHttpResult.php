@@ -11,8 +11,8 @@ class ViewHttpResult extends HttpResult {
         $this->viewClassName = $viewClassName;
     }
 
-    public function run(Route $route): void {
-        $view = new ($this->viewClassName)($route->getRequestArguments());
+    public function run(HttpRequestContext $request): void {
+        $view = new ($this->viewClassName)($request->route->getRequestArguments());
         Core::$Instance->themeManager->theme->render($view);
     }
 }

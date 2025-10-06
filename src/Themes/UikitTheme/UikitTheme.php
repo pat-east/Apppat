@@ -63,11 +63,10 @@ class UikitTheme extends Theme
                             <ul class="uk-navbar-nav">
                                 <li><a href="/about">About</a></li>
                                 <li><a href="/contact">Contact</a></li>
+                                <li><a href="/contact/inbox">Inbox</a></li>
                             </ul>
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </nav>
@@ -82,7 +81,6 @@ class UikitTheme extends Theme
                         <p class="uk-text-emphasis">This is a modern application framework written in PHP</p>
                     </div>
                 </div>
-
             </div>
         </div>
         <?php

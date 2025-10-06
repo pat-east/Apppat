@@ -1,6 +1,40 @@
 <?php
 
+class InputHelper {
+
+
+    /**
+     * @param array<string, string> $args
+     * @param array<string, string> $defaults
+     * @param bool $sanitizeInputs
+     * @return array<string, string>
+     */
+    public static function ParseArgs(array $args, array $defaults, bool $sanitizeInputs = true): array {
+        $arr = array_merge($defaults, $args);
+
+        if($sanitizeInputs) {
+            foreach($arr as $key => $val) {
+                $arr[$key] = Sanitize::text($val);
+            }
+        }
+
+        return $arr;
+    }
+}
+
 class Helper {
+
+    public static function GetDerivingClasses($baseClassName) {
+        $classes = [];
+        foreach(get_declared_classes() as $class) {
+            if(is_subclass_of($class, $baseClassName)) {
+                $classes[] = $class;
+            }
+        }
+
+        return $classes;
+    }
+
     public static function IncludeOnce(string $path, bool $recursivly = false): void {
         self::__($path, $recursivly, function($file) { include_once($file); });
     }

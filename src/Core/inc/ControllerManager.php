@@ -11,11 +11,8 @@ class ControllerManager {
 
     public function init(Core $core) : void {
         /* Now we initiate all the controllers ... */
-        foreach(get_declared_classes() as $class) {
-            if(is_subclass_of($class, 'Controller')) {
-                new $class($core);
-            }
+        foreach(Helper::GetDerivingClasses('Controller') as $class) {
+            new $class($core);
         }
-
     }
 }

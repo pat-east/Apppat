@@ -4,7 +4,7 @@ class SetupView extends View {
 
     public function render(): void {
 
-        $tests = new SetupTestRepository()->getTests();
+        $tests = new SetupTestManager()->getTests();
 
         ?>
         <div class="uk-section">

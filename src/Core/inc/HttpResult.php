@@ -1,5 +1,5 @@
 <?php
 
 abstract class HttpResult {
-    public abstract function run(Route $route);
+    public abstract function run(HttpRequestContext $request);
 }

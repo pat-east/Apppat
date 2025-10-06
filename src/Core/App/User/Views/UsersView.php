@@ -63,7 +63,6 @@ class UsersView extends View
                 </div>
             </div>
         </div>
-
         <?php
     }
 }

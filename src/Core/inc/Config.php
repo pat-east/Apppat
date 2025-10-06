@@ -5,6 +5,7 @@ class MySqlConfig {
     public string $host;
     public string $username;
     public string $password;
+    public string $tablePrefix;
 
     /**
      * @param array<string, string> $dotenv
@@ -14,6 +15,7 @@ class MySqlConfig {
         $this->host = $dotenv['MYSQL_HOST'] ?? '';
         $this->username = $dotenv['MYSQL_USERNAME'] ?? '';
         $this->password = $dotenv['MYSQL_PASSWORD'] ?? '';
+        $this->tablePrefix = $dotenv['MYSQL_TABLE_PREFIX'] ?? '';
     }
 }
 

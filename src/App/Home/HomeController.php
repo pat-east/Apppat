@@ -6,6 +6,6 @@ class HomeController extends Controller {
 
         $this->registerRoute(new ViewRoute('/', HomeView::class));
         $this->registerRoute(new ViewRoute('/about', AboutView::class));
-        $this->registerRoute(new ViewRoute('/contact', ContactView::class));
     }
+
 }

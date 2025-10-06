@@ -32,5 +32,30 @@ abstract class Route {
         return $this->method->matchesRequestUri();
     }
 
+    protected function _matchesAbsoluteRequestUri($requestURI): bool {
+        if($requestURI == $this->route) {
+            return true;
+        }
+
+        if($requestURI == $this->route . '/') {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected function _matchesRegexRequestUri($requestURI): bool {
+        if(preg_match($this->route, $requestURI, $this->args)) {
+            $this->args = Sanitize::dictOfString($this->args);
+            return true;
+        }
+
+        if($requestURI == $this->route . '/') {
+            return true;
+        }
+
+        return false;
+    }
+
     protected abstract function _matchesRequestUri(string $requestURI): bool;
 }

@@ -1,7 +1,14 @@
 <?php
 
 include_once(Defaults::THEMESPATH . '/SetupTheme/SetupTheme.php');
+
+
+include_once('inc/SetupTest.php');
+include_once('SetupTests/MysqlTableExistsTest.php');
+
 include_once('inc/SetupTestRepository.php');
+include_once('inc/CoreSetupTests.php');
+include_once('inc/SetupTestManager.php');
 include_once('SetupController.php');
 
 class Setup {
@@ -18,7 +25,7 @@ class Setup {
     }
 
     public function isSetUp() : bool {
-        $tests = new SetupTestRepository()->getTests();
+        $tests = new SetupTestManager()->getTests();
         foreach($tests as $test) {
             if(!$test->testPassed()) {
                 return false;

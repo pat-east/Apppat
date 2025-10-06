@@ -1,5 +1,6 @@
 <?php
 
+include_once('inc/MySqlClient.php');
 include_once('inc/Sanitize.php');
 include_once('inc/Router.php');
 include_once('inc/ErrorHandler.php');
@@ -72,7 +73,7 @@ class Core {
             $route = $this->router->route();
             $handler = $route->httpResultHandler;
             $httpResult = $handler($route->getRequestArguments());
-            $httpResult->run($route);
+            $httpResult->run(new HttpRequestContext($route));
 
         } catch(Throwable $e) {
             $this->errorHandler->handleException($e);
