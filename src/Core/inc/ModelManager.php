@@ -9,7 +9,7 @@ class ModelManager {
     }
 
     public function init() {
-        /* All app models are inside /App/Models-folder.
+        /* All app models are inside /Modules/Models-folder.
          * All files being included within that folder being included by ControllerManager already. */
     }
 }

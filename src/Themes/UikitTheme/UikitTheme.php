@@ -53,7 +53,7 @@ class UikitTheme extends Theme
                     <div class="uk-navbar-center">
                         <div class="uk-navbar-center-left">
                             <ul class="uk-navbar-nav">
-                                <li class="uk-active"><a href="/user">Users</a></li>
+                                <li><a href="/user">Users</a></li>
                             </ul>
                         </div>
                         <a class="uk-navbar-item uk-logo" href="/">

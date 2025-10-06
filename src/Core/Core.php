@@ -1,5 +1,6 @@
 <?php
 
+include_once('inc/Session.php');
 include_once('inc/MySqlClient.php');
 include_once('inc/Sanitize.php');
 include_once('inc/Router.php');
@@ -27,6 +28,9 @@ class Core {
             return;
         }
         self::$Instance = $this;
+
+
+
         $this->errorHandler = new ErrorHandler();
         $this->router = new Router();
         $this->assetsManager = new AssetManager();
@@ -37,15 +41,21 @@ class Core {
     }
 
     public function init(): void {
+
+        /* Session is singleton.
+         * PHP-session must start before any client output (header, stdout etc.).
+         */
+        new Session()->init();
+
         $this->errorHandler->init();
         $this->router->init();
         $this->assetsManager->init();
         $this->themeManager->init();
 
-        /* All build-in app logic is inside /Core/App-folder.
+        /* All build-in app logic is inside /Core/Modules-folder.
          * We now include all the files within that folder recursively. */
-        Helper::IncludeOnce(Defaults::APPSBUILDINPATH, true);
-        /* All the app logic is inside /App-folder.
+        Helper::IncludeOnce(Defaults::BUILD_IN_MODULES_PATH, true);
+        /* All the app logic is inside /Modules-folder.
          * We now include all the files within that folder recursively. */
         Helper::IncludeOnce(Defaults::APPSPATH, true);
 
@@ -53,6 +63,9 @@ class Core {
         $this->modelManager->init();
         $this->controllerManager->init($this);
         $this->setup->init();
+
+        // Finally init UserContext which is singleton
+        new UserContext();
 
 //        Log::Info(__FILE__, "Core initialized [version=%s]", Defaults::VERSION);
     }

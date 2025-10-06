@@ -19,18 +19,36 @@ class MySqlConfig {
     }
 }
 
+class SessionConfig {
+    public string $name = 'apppat_session';
+    public string $cookie_path = '/';
+    public int $cookie_lifetime = 60 * 60 * 24; // For one day
+    public string $cookie_domain = '';
+    public int $cookie_secure = 1;
+    public int $cookie_httponly = 1;
+    public string $cookie_samesite = 'strict';
+
+    public function __construct(array $dotenv) {
+        // TODO allow setting properties using .env
+    }
+}
+
 class Config {
     /** @var array<string, string> */
     static array $dotenv = [];
 
     public static MySqlConfig $MySql;
 
+    public static SessionConfig $Session;
+
     public function init(): void {
         if(self::$dotenv == null) {
             if(file_exists(Defaults::DOTENVPATH)) {
                 self::$dotenv = parse_ini_file(Defaults::DOTENVPATH);
                 self::$MySql = new MySqlConfig(self::$dotenv);
+                self::$Session = new SessionConfig(self::$dotenv);
             }
+
         }
     }
 }

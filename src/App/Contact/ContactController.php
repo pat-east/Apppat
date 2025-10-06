@@ -18,8 +18,7 @@ class ContactController extends Controller {
             'message' => null,
         ]);
 
-        $model = new ContactModelRepository()->add(new ContactModel($args['name'], $args['email'], $args['message']));
-        Logger::Object(__FILE__, $model);
+        new ContactModelRepository()->add(new ContactModel($args['name'], $args['email'], $args['message']));
 
         return new ViewHttpResult(ContactedView::class);
     }

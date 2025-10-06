@@ -8,11 +8,10 @@ class Defaults {
     const APPTITLE = 'AppPat';
     const ABSPATH = __ABSPATH__;
     const DOTENVPATH = __ABSPATH__ . '/.env';
-    const APPSBUILDINPATH = __ABSPATH__ . '/Core/App';
+    const BUILD_IN_MODULES_PATH = __ABSPATH__ . '/Core/Modules';
     const APPSPATH = __ABSPATH__ . '/App';
     const THEMESPATH = __ABSPATH__ . '/Themes';
     const SETUPPATH = __ABSPATH__ . '/Core/Setup';
-    const APPMODELSPATH = __ABSPATH__ . '/App/Models';
     const LOGS_PATH = self::ABSPATH . '/.logs';
     const LOG_FILE = self::LOGS_PATH . '/log.txt';
 

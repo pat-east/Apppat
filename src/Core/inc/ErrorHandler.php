@@ -19,7 +19,7 @@ class ErrorHandler {
     }
 
     public function handleError(int $errno, string $errstr, string $errfile, int $errline): never {
-        Log::Error(__FILE__, $errstr);
+        Log::Error(__FILE__, sprintf('%s [%s:%s]', $errstr, $errfile, $errline));
         http_response_code(500);
         include_once(Defaults::ABSPATH . '/Views/500.php');
         exit;
