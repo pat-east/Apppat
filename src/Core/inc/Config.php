@@ -27,6 +27,9 @@ class SessionConfig {
     public int $cookie_secure = 1;
     public int $cookie_httponly = 1;
     public string $cookie_samesite = 'strict';
+    public int $use_only_cookies = 1;
+    public int $use_strict_mode = 1;
+    public int $sid_length = 64;
 
     public function __construct(array $dotenv) {
         // TODO allow setting properties using .env

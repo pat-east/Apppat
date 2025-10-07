@@ -29,8 +29,6 @@ class Core {
         }
         self::$Instance = $this;
 
-
-
         $this->errorHandler = new ErrorHandler();
         $this->router = new Router();
         $this->assetsManager = new AssetManager();

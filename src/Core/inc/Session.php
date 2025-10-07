@@ -25,6 +25,9 @@ class Session {
         }
         ini_set('session.cookie_httponly', Config::$Session->cookie_httponly);
         ini_set('session.cookie_samesite', Config::$Session->cookie_samesite);
+        ini_set('session.sid_length', Config::$Session->sid_length);
+        ini_set('session.use_only_cookies', Config::$Session->use_only_cookies);
+        ini_set('session.use_strict_mode', Config::$Session->use_strict_mode);
 
 
         session_start();
