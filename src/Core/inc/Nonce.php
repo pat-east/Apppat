@@ -12,7 +12,7 @@ class Nonce {
         return new Nonce(self::GenerateNonce($secret, $payload), $payload);
     }
 
-    public static function Verify(string $secret, string $payload, ?string $token) : bool {
+    public static function Verify(string $secret, string $payload, string $token) : bool {
         return $token === self::GenerateNonce($secret, $payload);
     }
 
