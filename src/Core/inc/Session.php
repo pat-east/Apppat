@@ -19,7 +19,7 @@ class Session {
         ini_set('session.cookie_path', Config::$Session->cookie_path);
         ini_set('session.cookie_lifetime', Config::$Session->cookie_lifetime);
         ini_set('session.cookie_domain', Config::$Session->cookie_domain);
-        if(!str_ends_with($_SERVER['HTTP_HOST'], '.local')) {
+        if(!Config::$Environment->isDevEnvironment()) {
             // Is it also allowed to use http in dev-environment
             ini_set('session.cookie_secure', Config::$Session->cookie_secure);
         }

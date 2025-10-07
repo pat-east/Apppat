@@ -1,5 +1,21 @@
 <?php
 
+class EnvironmentConfig {
+
+    public string $noncePayload;
+
+    /**
+     * @param array<string, string> $dotenv
+     */
+    public function __construct(array $dotenv) {
+        $this->noncePayload = $dotenv['NONCE_PAYLOAD'] ?? '';
+    }
+
+    public function isDevEnvironment(): bool {
+        return str_ends_with($_SERVER['HTTP_HOST'], '.local');
+    }
+}
+
 class MySqlConfig {
     public string $database;
     public string $host;
@@ -44,11 +60,14 @@ class Config {
 
     public static SessionConfig $Session;
 
+    public static EnvironmentConfig $Environment;
+
     public function init(): void {
         if(self::$dotenv == null) {
             if(file_exists(Defaults::DOTENVPATH)) {
                 self::$dotenv = parse_ini_file(Defaults::DOTENVPATH);
                 self::$MySql = new MySqlConfig(self::$dotenv);
+                self::$Environment = new EnvironmentConfig(self::$dotenv);
                 self::$Session = new SessionConfig(self::$dotenv);
             }
 

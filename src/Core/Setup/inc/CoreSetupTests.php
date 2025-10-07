@@ -33,12 +33,31 @@ class CoreSetupTests extends SetupTestRepository {
                 return class_exists('mysqli');
             });
         $tests[] = new SetupTest(
+            'HTTPS is enabled or using dev environments',
+            'Tests server is responding encrypted using HTTPS. In development environment this test always passes.',
+            'HTTPS is enabled or using dev environment',
+            'HTTPS is disabled',
+            function () {
+                if(Config::$Environment->isDevEnvironment()) { return true; }
+                return
+                    (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+                    || $_SERVER['SERVER_PORT'] == 443;
+            });
+        $tests[] = new SetupTest(
             '.env file exists',
             'Tests .env file exists',
             '.env file exists at ' . Defaults::DOTENVPATH,
             '.env file does not exist at ' . Defaults::DOTENVPATH,
             function () {
                 return file_exists(Defaults::DOTENVPATH);
+            });
+        $tests[] = new SetupTest(
+            'Nonce payload is configured',
+            'Tests NONCE_PAYLOAD parameter is defined',
+            'NONCE_PAYLOAD is set',
+            'NONCE_PAYLOAD is not set or empty in ' . Defaults::DOTENVPATH,
+            function () {
+                return Config::$Environment->noncePayload != '';
             });
         $tests[] = new SetupTest(
             'MySQL configured',

@@ -1,6 +1,8 @@
 <?php
 
 include_once('inc/Session.php');
+include_once('inc/CsrfToken.php');
+include_once('inc/Nonce.php');
 include_once('inc/MySqlClient.php');
 include_once('inc/Sanitize.php');
 include_once('inc/Router.php');
