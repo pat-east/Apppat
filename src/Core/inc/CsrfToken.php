@@ -8,10 +8,7 @@ class CsrfToken {
         return new CsrfToken();
     }
 
-    /**
-     * @throws Exception
-     */
-    public static function VerifyToken(string $token) : bool {
+    public static function Verify(string $token) : bool {
         if(!isset($_SESSION[self::CSRF_TOKEN_NAME])) {
             return false;
         }

@@ -14,8 +14,7 @@ class HttpRequestContext {
      * @param bool $sanitizeInputs
      * @return array<string, string>
      */
-    public function parseArgs($args, $default): array
-    {
+    public function parseArgs($args, $default): array{
         return InputHelper::ParseArgs($args, $default);
     }
 
@@ -25,9 +24,9 @@ class HttpRequestContext {
     public function verifyCsrfToken() : bool {
         switch($this->route->method) {
             case HttpMethod::Get:
-                return CsrfToken::VerifyToken($_GET[CsrfToken::CSRF_TOKEN_NAME]);
+                return CsrfToken::Verify($_GET[CsrfToken::CSRF_TOKEN_NAME]);
             case HttpMethod::Post:
-                return CsrfToken::VerifyToken($_POST[CsrfToken::CSRF_TOKEN_NAME]);
+                return CsrfToken::Verify($_POST[CsrfToken::CSRF_TOKEN_NAME]);
             case HttpMethod::Put:
             case HttpMethod::Delete:
             case HttpMethod::Head:

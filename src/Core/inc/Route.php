@@ -9,17 +9,35 @@ abstract class Route {
     var \Closure $httpResultHandler;
     var array $args = [];
 
+    /** @var InputMiddleware[] */
+    var array $inputMiddleware = [];
+
+    /** @var OutputMiddleware[] */
+    var array $outputMiddleware = [];
+
     /**
      * @param \Closure(HttpRequestContext): HttpResult $handler
+     * @param InputMiddleware[] $inputMiddleware
+     * @param OutputMiddleware[] $outputMiddleware
      */
-    public function __construct(string $route, \Closure $handler, HttpMethod $method = HttpMethod::Get) {
+    public function __construct(string $route, \Closure $handler, HttpMethod $method = HttpMethod::Get,
+        array $inputMiddleware = [], array $outputMiddleware = []) {
         $this->route = $route;
         $this->httpResultHandler = $handler;
         $this->method = $method;
+        $this->inputMiddleware = $inputMiddleware;
+        $this->outputMiddleware = $outputMiddleware;
     }
 
     public function getRequestArguments(): array {
         return $this->args;
+    }
+
+    /**
+     * @param array<string, string> $args
+     */
+    public function setRequestArguments(array $args): void {
+        $this->args = $args;
     }
 
     public function matchesRequestUri($requestURI): bool {

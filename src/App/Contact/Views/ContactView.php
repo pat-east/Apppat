@@ -3,21 +3,13 @@
 class ContactView extends View {
 
     public function render(): void {
-        // If using csrf-token
-//        $csrfToken = CsrfToken::Create();
-
-        // Else using nonces
-        $nonce = Nonce::Create(ContactController::NONCE_SECRET);
         ?>
         <div class="uk-section">
             <div class="uk-container">
                 <h1>Contact</h1>
                 <form class="uk-form-horizontal uk-margin-large" action="/contact" method="post">
-                    <?php // If using csrf-token ?>
-<!--                    <input type="hidden" value="--><?php //= $csrfToken->token ?><!--" name="--><?php //= CsrfToken::CSRF_TOKEN_NAME ?><!--" />-->
-                    <?php // Else using nonces ?>
-                    <input type="hidden" value="<?= $nonce->nonce ?>" name="<?= Nonce::NONCE_NAME ?>" />
-                    <input type="hidden" value="<?= $nonce->payload ?>" name="<?= Nonce::NONCE_PAYLOAD ?>" />
+                    [form-csrf-token]
+                    [form-nonce secret="<?= ContactController::NONCE_SECRET ?>"]
                     <div class="uk-margin">
                         <label class="uk-form-label" for="form-name">Name</label>
                         <div class="uk-form-controls">

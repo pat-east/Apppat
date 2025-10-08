@@ -9,6 +9,8 @@ class Defaults {
     const ABSPATH = __ABSPATH__;
     const DOTENVPATH = __ABSPATH__ . '/.env';
     const BUILD_IN_MODULES_PATH = __ABSPATH__ . '/Core/Modules';
+    const BUILD_IN_SHORTCODES_PATH = __ABSPATH__ . '/Core/inc/Shortcodes';
+    const BUILD_IN_MIDDLEWARE_PATH = __ABSPATH__ . '/Core/inc/Middleware';
     const APPSPATH = __ABSPATH__ . '/App';
     const THEMESPATH = __ABSPATH__ . '/Themes';
     const SETUPPATH = __ABSPATH__ . '/Core/Setup';

@@ -14,7 +14,7 @@ class InputHelper {
 
         if($sanitizeInputs) {
             foreach($arr as $key => $val) {
-                $arr[$key] = Sanitize::text($val);
+                $arr[$key] = Sanitize::Text($val);
             }
         }
 
@@ -65,7 +65,7 @@ class Helper {
                 $filesWithinFolder = scandir($path);
                 foreach($filesWithinFolder as $file) {
                     if(!str_starts_with($file, '.')) {
-                        $handler($path);
+                        $handler($path . '/' . $file);
                     }
                 }
             } else {

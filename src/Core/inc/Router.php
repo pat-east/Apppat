@@ -36,19 +36,17 @@ class Router {
             }
         }
 
-        $this->routeFallback($requestUri);
+        return $this->routeFallback($requestUri);
     }
 
-    public function routeFallback(string $requestUri): never {
+    public function routeFallback(string $requestUri): Route {
         if(!str_ends_with($requestUri, '/')) {
             header('location: ' . $requestUri . '/');
             exit;
         }
 
         http_response_code(404);
-        // TODO refactor me. This should also return a Route-instance instead of including some hard-coded 404.php
-        include_once(Defaults::ABSPATH . '/Views/404.php');
-        exit;
+        return new ViewRoute('/404', 'Status404View');
     }
 
 }

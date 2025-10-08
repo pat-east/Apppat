@@ -6,12 +6,15 @@ include_once('inc/Nonce.php');
 include_once('inc/MySqlClient.php');
 include_once('inc/Sanitize.php');
 include_once('inc/Router.php');
+include_once('inc/MiddlewareManager.php');
 include_once('inc/ErrorHandler.php');
 include_once('inc/AssetManager.php');
 include_once('inc/ThemeManager.php');
 include_once('inc/ModelManager.php');
 include_once('inc/ControllerManager.php');
+include_once('inc/ShortcodeFactory.php');
 include_once('Setup/Setup.php');
+
 
 class Core {
 
@@ -23,6 +26,7 @@ class Core {
     var ModelManager $modelManager;
     var ControllerManager $controllerManager;
     var Setup $setup;
+    var MiddlewareManager $middlewareManager;
 
     public function __construct() {
         if(isset(self::$Instance)) {
@@ -36,8 +40,10 @@ class Core {
         $this->assetsManager = new AssetManager();
         $this->themeManager = new ThemeManager();
         $this->modelManager = new ModelManager();
+        $this->middlewareManager = new MiddlewareManager();
         $this->controllerManager = new ControllerManager();
         $this->setup = new Setup($this);
+
     }
 
     public function init(): void {
@@ -61,10 +67,13 @@ class Core {
 
         // And now we initialize those ...
         $this->modelManager->init();
+        $this->middlewareManager->init();
         $this->controllerManager->init($this);
+        ShortcodeFactory::Init();
         $this->setup->init();
 
-        // Finally init UserContext which is singleton
+
+        // After all is set up and running, init the UserContext
         new UserContext();
 
 //        Log::Info(__FILE__, "Core initialized [version=%s]", Defaults::VERSION);
@@ -84,10 +93,7 @@ class Core {
             }
 
             $route = $this->router->route();
-            $handler = $route->httpResultHandler;
-            $httpResult = $handler($route->getRequestArguments());
-            $httpResult->run(new HttpRequestContext($route));
-
+            $this->middlewareManager->run($route);
         } catch(Throwable $e) {
             $this->errorHandler->handleException($e);
         }

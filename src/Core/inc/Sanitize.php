@@ -2,7 +2,7 @@
 
 class Sanitize {
 
-    public static function text(string $string) : string {
+    public static function Text(string $string) : string {
         return self::__text($string);
     }
 
