@@ -1,5 +1,6 @@
 <?php
 
+include_once('inc/Cors.php');
 include_once('inc/Session.php');
 include_once('inc/CsrfToken.php');
 include_once('inc/Nonce.php');
@@ -29,8 +30,8 @@ class Core {
     var MiddlewareManager $middlewareManager;
 
     public function __construct() {
-        if(isset(self::$Instance)) {
-            Log::Info(__FILE__, "Core already initialized [version=%s]", Defaults::VERSION);
+        if (isset(self::$Instance)) {
+            Log::Info(__FILE__, 'Core already initialized [version=%s]', Defaults::VERSION);
             return;
         }
         self::$Instance = $this;
@@ -70,7 +71,6 @@ class Core {
         ShortcodeFactory::Init();
         $this->setup->init();
 
-
         // After all is set up and running, init the UserContext
         new UserContext();
 
@@ -80,19 +80,39 @@ class Core {
     public function run(): void {
         try {
 
-            // Run setup if not already set up
-            if(!$this->setup->isSetUp()) { $this->setup->runSetUp(); }
-            else {
-                // If user accesses /setup-page and all tests pass, redirect the user to /
-                if($_SERVER['REQUEST_URI'] == '/setup' && $this->setup->isSetUp()) {
-                    header('Location: /');
-                    exit;
-                }
+            switch ($_SERVER['REQUEST_METHOD']) {
+                // We only allow following request methods to be processed by apps
+                case 'GET':
+                    // Run setup if not already set up
+                    if (!$this->setup->isSetUp()) {
+                        $this->setup->runSetUp();
+                    } else {
+                        // If user accesses /setup-page and all tests pass, redirect the user to /
+                        if ($_SERVER['REQUEST_URI'] == '/setup' && $this->setup->isSetUp()) {
+                            header('Location: /');
+                            exit;
+                        }
+                    }
+                case 'POST':
+                case 'PUT':
+                case 'DELETE':
+                    $route = $this->router->route();
+                    $this->middlewareManager->run($route);
+                    break;
+
+                // OPTIONS request method is necessary to handle CORS
+                case 'OPTIONS':
+                    Cors::Headers();
+                    exit(0);
+
+                // Anything else gets answered by 405 - Method Not Allowed
+                default:
+                    http_response_code(405);
+                    break;
             }
 
-            $route = $this->router->route();
-            $this->middlewareManager->run($route);
-        } catch(Throwable $e) {
+
+        } catch (Throwable $e) {
             $this->errorHandler->handleException($e);
         }
     }
