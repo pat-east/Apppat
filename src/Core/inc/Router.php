@@ -14,8 +14,8 @@ class Router {
     }
 
     public function init(): void {
-        Helper::IncludeOnce(Defaults::ABSPATH . '/Core/inc/Routes', true);
-        Helper::IncludeOnce(Defaults::ABSPATH . '/Core/inc/HttpResults', true);
+        Helper::IncludeOnce(Defaults::ABSPATH . '/Core/Routes', true);
+        Helper::IncludeOnce(Defaults::ABSPATH . '/Core/HttpResults', true);
     }
 
     public function registerRoute(Route $route): void {

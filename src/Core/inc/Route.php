@@ -1,5 +1,7 @@
 <?php
 
+use Middleware\inc\OutputMiddleware;
+
 abstract class Route {
 
     var string $route;
@@ -27,6 +29,7 @@ abstract class Route {
         $this->method = $method;
         $this->inputMiddleware = $inputMiddleware;
         $this->outputMiddleware = $outputMiddleware;
+
     }
 
     public function getRequestArguments(): array {

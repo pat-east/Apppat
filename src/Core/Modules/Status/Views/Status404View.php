@@ -2,11 +2,13 @@
 
 class Status404View extends View {
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct([]);
     }
 
-    public function render(): void {
+    public function render(): void
+    {
         ?>
         <div class="uk-section">
             <div class="uk-container">

@@ -19,7 +19,7 @@ class ShortcodeFactory {
     }
 
     public static function Init() {
-        Helper::IncludeOnce(Defaults::BUILD_IN_SHORTCODES_PATH);
+        Helper::IncludeOnce(Defaults::ABSPATH . '/Core/Shortcodes');
 
         foreach(Helper::GetDerivingClasses('Shortcode') as $class) {
             $name = call_user_func([$class, 'GetName']);

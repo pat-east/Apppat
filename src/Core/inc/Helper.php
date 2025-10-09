@@ -60,28 +60,19 @@ class Helper {
     }
 
     static function __(string $path, bool $recursivly, Callable $handler): void {
-        if(!$recursivly) {
-            if(is_dir($path)) {
-                $filesWithinFolder = scandir($path);
-                foreach($filesWithinFolder as $file) {
-                    if(!str_starts_with($file, '.')) {
+        if(is_dir($path)) {
+            $filesWithinFolder = scandir($path);
+            foreach($filesWithinFolder as $file) {
+                if(!str_starts_with($file, '.')) {
+                    if(is_file($path . '/' . $file)) {
                         $handler($path . '/' . $file);
+                    } else if($recursivly) {
+                        self::__($path . '/' . $file, true, $handler);
                     }
                 }
-            } else {
-                $handler($path);
             }
-        } else {
-            if(is_dir($path)) {
-                $filesWithinFolder = scandir($path);
-                foreach($filesWithinFolder as $file) {
-                    if(!str_starts_with($file, '.')) {
-                        self::IncludeOnce($path . '/' . $file, $recursivly);
-                    }
-                }
-            } else {
-                $handler($path);
-            }
+        } else if(is_file($path)) {
+            $handler($path);
         }
     }
 }

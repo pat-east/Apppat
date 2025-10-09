@@ -1,6 +1,7 @@
 <?php
 
-class SanitizeRequestArgumentsMiddleware extends InputMiddleware {
+class SanitizeRequestArgumentsMiddleware extends InputMiddleware
+{
 
     /** @var array<string, string> */
     var array $defaultArgs;
@@ -8,12 +9,14 @@ class SanitizeRequestArgumentsMiddleware extends InputMiddleware {
     /**
      * @param array<string, string> $defaultArgs
      */
-    public function __construct(array $defaultArgs) {
+    public function __construct(array $defaultArgs)
+    {
         $this->defaultArgs = $defaultArgs;
     }
 
-    public function run(Route $route) : InputMiddlewareResult {
-        switch($route->method) {
+    public function run(Route $route): InputMiddlewareResult
+    {
+        switch ($route->method) {
             case HttpMethod::Post:
                 $route->setRequestArguments(InputHelper::ParseArgs($_POST, $this->defaultArgs));
                 break;

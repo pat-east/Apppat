@@ -1,12 +1,15 @@
 <?php
 
-class HtmlPreShortcode extends Shortcode {
+class HtmlPreShortcode extends Shortcode
+{
 
-    static function GetName(): string {
+    static function GetName(): string
+    {
         return 'html-pre';
     }
 
-    function process(): string {
+    function process(): string
+    {
         ob_start();
         ?>
         <pre>

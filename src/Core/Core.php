@@ -58,12 +58,10 @@ class Core {
         $this->assetsManager->init();
         $this->themeManager->init();
 
-        /* All build-in app logic is inside /Core/Modules-folder.
-         * We now include all the files within that folder recursively. */
-        Helper::IncludeOnce(Defaults::BUILD_IN_MODULES_PATH, true);
-        /* All the app logic is inside /Modules-folder.
-         * We now include all the files within that folder recursively. */
-        Helper::IncludeOnce(Defaults::APPSPATH, true);
+        /* All build-in app logic is inside /Core/Modules-folder. */
+        Helper::IncludeOnce(Defaults::ABSPATH . '/Core/Modules', true);
+        /* All the app logic is inside /App-folder. */
+        Helper::IncludeOnce(Defaults::ABSPATH . '/App/', true);
 
         // And now we initialize those ...
         $this->modelManager->init();

@@ -1,24 +1,27 @@
 <?php
 
-class ShortcodeMiddleware extends OutputMiddleware {
+class ShortcodeMiddleware extends OutputMiddleware
+{
 
     const MaxShortcodeProcessingDepth = 10;
 
-    public function run(Route $route, string $stdout = ''): OutputMiddlewareResult {
+    public function run(Route $route, string $stdout = ''): OutputMiddlewareResult
+    {
 
         $processed = $this->process($stdout);
 
         return new OutputMiddlewareResult(middlewareResultStatus::Success, $stdout, $processed);
     }
 
-    private function process($stdout, $maxDepth = self::MaxShortcodeProcessingDepth) {
+    private function process($stdout, $maxDepth = self::MaxShortcodeProcessingDepth)
+    {
         $shortcodePattern = '~\[(?P<name>[a-zA-Z_][\w-]*)(?P<attrs>(?:\s+[a-zA-Z_][\w-]*=(?:"[^"]*"|\'[^\']*\'|[^\s\]]+))*)\s*\](?:(?P<content>.*?)\[/\k<name>\])?~su';
         $attrPattern = '~([a-zA-Z_][\w-]*)=(?:"([^"]*)"|\'([^\']*)\'|([^\s"\']+))~u';
         $processedStdout = $stdout;
         $depth = 0;
         do {
             $preProcessedStdout = $processedStdout;
-            $processedStdout = preg_replace_callback($shortcodePattern, function($m) use ($attrPattern) {
+            $processedStdout = preg_replace_callback($shortcodePattern, function ($m) use ($attrPattern) {
                 $attrs = [];
                 if (!empty($m['attrs'])) {
                     if (preg_match_all($attrPattern, $m['attrs'], $am, PREG_SET_ORDER)) {
@@ -35,11 +38,11 @@ class ShortcodeMiddleware extends OutputMiddleware {
                 return $shortcode !== null ? $shortcode->process() : $m[0];
             }, $processedStdout);
 
-            if($processedStdout == $preProcessedStdout) {
+            if ($processedStdout == $preProcessedStdout) {
                 break;
             }
 
-        } while(++$depth < $maxDepth);
+        } while (++$depth < $maxDepth);
         return $processedStdout;
     }
 }

@@ -1,7 +1,6 @@
 <?php
 
-include_once(Defaults::THEMESPATH . '/SetupTheme/SetupTheme.php');
-
+include_once(Defaults::ABSPATH . '/Themes/SetupTheme/SetupTheme.php');
 
 include_once('inc/SetupTest.php');
 include_once('SetupTests/MysqlTableExistsTest.php');

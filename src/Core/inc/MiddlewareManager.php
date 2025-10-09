@@ -9,7 +9,8 @@ class MiddlewareManager {
     }
 
     public function init() : void {
-        Helper::IncludeOnce(Defaults::BUILD_IN_MIDDLEWARE_PATH, true);
+        Helper::IncludeOnce(Defaults::ABSPATH . '/Core/Middleware/inc');
+        Helper::IncludeOnce(Defaults::ABSPATH . '/Core/Middleware');
     }
 
     public function run(Route $route) : void {
@@ -49,6 +50,13 @@ class MiddlewareManager {
     }
 
     private function runOutputMiddleware(Route $route, string $stdout) : string {
+
+        foreach(Helper::GetDerivingClasses('MandatoryOutputMiddleware') as $middlewareClass) {
+            $middleware = new $middlewareClass();
+            $result = $middleware->run($route, $stdout);
+            $stdout = $result->result == MiddlewareResultStatus::Success ? $result->processedStdout : $result->originalStdout;
+        }
+
         foreach($route->outputMiddleware as $middleware) {
             $result = $middleware->run($route, $stdout);
             $stdout = $result->result == MiddlewareResultStatus::Success ? $result->processedStdout : $result->originalStdout;
