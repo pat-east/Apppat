@@ -2,7 +2,7 @@
 
 include_once('Middleware.php');
 
-class MiddlewareManager {
+class MiddlewareEngine {
 
     public function __construct() {}
 

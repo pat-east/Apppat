@@ -1,9 +1,7 @@
 <?php
 
 class SecurityHeaderMiddleware extends MandatoryOutputMiddleware {
-
-    public function run(Route $route, string $stdout): OutputMiddlewareResult
-    {
+    public function run(Route $route, string $stdout): OutputMiddlewareResult {
         header("X-Frame-Options: DENY");
         header("X-Content-Type-Options: nosniff");
         header("Referrer-Policy: strict-origin-when-cross-origin");

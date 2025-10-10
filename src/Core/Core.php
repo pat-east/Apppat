@@ -8,7 +8,7 @@ include_once('inc/Nonce.php');
 include_once('inc/MySqlClient.php');
 include_once('inc/Sanitize.php');
 include_once('inc/Router.php');
-include_once('inc/MiddlewareManager.php');
+include_once('inc/MiddlewareEngine.php');
 include_once('inc/ErrorHandler.php');
 include_once('inc/AssetManager.php');
 include_once('inc/ThemeManager.php');
@@ -28,7 +28,7 @@ class Core {
     var ModelManager $modelManager;
     var ControllerManager $controllerManager;
     var Setup $setup;
-    var MiddlewareManager $middlewareManager;
+    var MiddlewareEngine $middlewareEngine;
 
     public function __construct() {
         if (isset(self::$Instance)) {
@@ -42,7 +42,7 @@ class Core {
         $this->assetsManager = new AssetManager();
         $this->themeManager = new ThemeManager();
         $this->modelManager = new ModelManager();
-        $this->middlewareManager = new MiddlewareManager();
+        $this->middlewareEngine = new MiddlewareEngine();
         $this->controllerManager = new ControllerManager();
         $this->setup = new Setup($this);
 
@@ -67,7 +67,7 @@ class Core {
 
         // And now we initialize those ...
         $this->modelManager->init();
-        $this->middlewareManager->init();
+        $this->middlewareEngine->init();
         $this->controllerManager->init($this);
         ShortcodeFactory::Init();
         $this->setup->init();
@@ -98,7 +98,7 @@ class Core {
                 case 'PUT':
                 case 'DELETE':
                     $route = $this->router->route();
-                    $this->middlewareManager->run($route);
+                    $this->middlewareEngine->run($route);
                     break;
 
                 // OPTIONS request method is necessary to handle CORS
