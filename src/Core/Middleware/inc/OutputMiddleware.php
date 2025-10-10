@@ -1,15 +1,14 @@
 <?php
 
-class OutputMiddlewareResult extends MiddlewareResult
-{
+class OutputMiddlewareResult extends MiddlewareResult {
 
     var string $originalStdout;
-
     var string $processedStdout;
 
     public function __construct(
         MiddlewareResultStatus $result = MiddlewareResultStatus::Success,
-        string                 $originalStdout = '', string $processedStdout = '')
+        string $originalStdout = '',
+        string $processedStdout = '')
     {
         parent::__construct($result);
         $this->originalStdout = $originalStdout;
@@ -17,7 +16,6 @@ class OutputMiddlewareResult extends MiddlewareResult
     }
 }
 
-abstract class OutputMiddleware extends Middleware
-{
+abstract class OutputMiddleware extends Middleware {
     public abstract function run(Route $route, string $stdout): \OutputMiddlewareResult;
 }

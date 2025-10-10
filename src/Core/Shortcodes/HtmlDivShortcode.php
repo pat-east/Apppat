@@ -1,15 +1,12 @@
 <?php
 
-class HtmlDivShortcode extends Shortcode
-{
+class HtmlDivShortcode extends Shortcode {
 
-    static function GetName(): string
-    {
+    static function GetName(): string {
         return 'html-div';
     }
 
-    function process(): string
-    {
+    function process(): string {
         ob_start();
         ?>
         <div>

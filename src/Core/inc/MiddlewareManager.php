@@ -4,19 +4,17 @@ include_once('Middleware.php');
 
 class MiddlewareManager {
 
-    public function __construct() {
+    public function __construct() {}
 
-    }
-
-    public function init() : void {
+    public function init(): void {
         Helper::IncludeOnce(Defaults::ABSPATH . '/Core/Middleware/inc');
         Helper::IncludeOnce(Defaults::ABSPATH . '/Core/Middleware');
     }
 
-    public function run(Route $route) : void {
+    public function run(Route $route): void {
 
         // Let input middleware do their work
-        if(!$this->runInputMiddleware($route)) {
+        if (!$this->runInputMiddleware($route)) {
             // If it fails, render 400-page
             new ViewHttpResult('Status400View')->run(new HttpRequestContext($route));
             return;
@@ -39,25 +37,25 @@ class MiddlewareManager {
         echo $content;
     }
 
-    private function runInputMiddleware(Route $route) : bool {
-        foreach($route->inputMiddleware as $middleware) {
+    private function runInputMiddleware(Route $route): bool {
+        foreach ($route->inputMiddleware as $middleware) {
             $result = $middleware->run($route);
-            if($result->result == MiddlewareResultStatus::Failure) {
+            if ($result->result == MiddlewareResultStatus::Failure) {
                 return false;
             }
         }
         return true;
     }
 
-    private function runOutputMiddleware(Route $route, string $stdout) : string {
+    private function runOutputMiddleware(Route $route, string $stdout): string {
 
-        foreach(Helper::GetDerivingClasses('MandatoryOutputMiddleware') as $middlewareClass) {
+        foreach (Helper::GetDerivingClasses('MandatoryOutputMiddleware') as $middlewareClass) {
             $middleware = new $middlewareClass();
             $result = $middleware->run($route, $stdout);
             $stdout = $result->result == MiddlewareResultStatus::Success ? $result->processedStdout : $result->originalStdout;
         }
 
-        foreach($route->outputMiddleware as $middleware) {
+        foreach ($route->outputMiddleware as $middleware) {
             $result = $middleware->run($route, $stdout);
             $stdout = $result->result == MiddlewareResultStatus::Success ? $result->processedStdout : $result->originalStdout;
         }

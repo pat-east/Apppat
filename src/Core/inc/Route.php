@@ -1,7 +1,5 @@
 <?php
 
-use Middleware\inc\OutputMiddleware;
-
 abstract class Route {
 
     var string $route;

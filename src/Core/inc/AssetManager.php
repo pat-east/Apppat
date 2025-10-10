@@ -88,7 +88,7 @@ class AssetManager {
             return $asset->type == AssetType::JavaScript;
         });
         foreach($assets as $asset) {
-            ?><script src="<?= $asset->path ?>"></script><?php
+            ?><script src="<?= $asset->path ?>" nonce="<?= Csp::CreateNonce() ?>"></script><?php
         }
     }
 

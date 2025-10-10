@@ -13,7 +13,4 @@ class MiddlewareResult {
     }
 }
 
-
-abstract class Middleware {
-
-}
+abstract class Middleware {}

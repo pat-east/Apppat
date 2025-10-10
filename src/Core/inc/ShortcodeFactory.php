@@ -1,15 +1,14 @@
 <?php
 
-include_once('Shortcode.php');
-
 class ShortcodeFactory {
 
     static array $ShortcodeClassesByName = [];
 
     /**
-     * @param string $shortcode
+     * @param string $shortcodeName
      * @param array<string, string> $attrs
      * @param string $content
+     * @return Shortcode|null
      */
     public static function Create(string $shortcodeName, array $attrs, string $content) : Shortcode|null {
         if(isset(self::$ShortcodeClassesByName[$shortcodeName])) {
@@ -18,7 +17,7 @@ class ShortcodeFactory {
         return null;
     }
 
-    public static function Init() {
+    public static function Init(): void {
         Helper::IncludeOnce(Defaults::ABSPATH . '/Core/Shortcodes');
 
         foreach(Helper::GetDerivingClasses('Shortcode') as $class) {

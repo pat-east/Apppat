@@ -2,7 +2,7 @@
 
 abstract class Shortcode {
 
-    abstract static function GetName() : string;
+    abstract static function GetName(): string;
 
     /** @var array<string, string> $attrs */
     var array $attrs;
@@ -18,5 +18,5 @@ abstract class Shortcode {
         $this->content = $content;
     }
 
-    abstract function process() : string;
+    abstract function process(): string;
 }

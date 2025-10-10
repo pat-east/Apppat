@@ -1,5 +1,6 @@
 <?php
 
+include_once('inc/Csp.php');
 include_once('inc/Cors.php');
 include_once('inc/Session.php');
 include_once('inc/CsrfToken.php');
@@ -13,7 +14,7 @@ include_once('inc/AssetManager.php');
 include_once('inc/ThemeManager.php');
 include_once('inc/ModelManager.php');
 include_once('inc/ControllerManager.php');
-include_once('inc/ShortcodeFactory.php');
+include_once('inc/ShortcodeEngine.php');
 include_once('Setup/Setup.php');
 
 

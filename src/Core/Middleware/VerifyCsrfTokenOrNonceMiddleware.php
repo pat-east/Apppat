@@ -1,17 +1,14 @@
 <?php
 
-class VerifyCsrfTokenOrNonceMiddleware extends InputMiddleware
-{
+class VerifyCsrfTokenOrNonceMiddleware extends InputMiddleware {
 
     private string $nonceSecret;
 
-    public function __construct(string $nonceSecrent = '')
-    {
+    public function __construct(string $nonceSecrent = '') {
         $this->nonceSecret = $nonceSecrent;
     }
 
-    public function run(Route $route): InputMiddlewareResult
-    {
+    public function run(Route $route): InputMiddlewareResult {
 
         if ($route->method == HttpMethod::Post) {
 

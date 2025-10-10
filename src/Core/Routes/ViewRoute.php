@@ -1,12 +1,10 @@
 <?php
 
-class ViewRoute extends Route
-{
+class ViewRoute extends Route {
     /**
      * @param class-string $viewClassName
      */
-    public function __construct(string $route, string $viewClassName)
-    {
+    public function __construct(string $route, string $viewClassName) {
         parent::__construct(
             $route,
             function () use ($viewClassName) {
@@ -18,8 +16,7 @@ class ViewRoute extends Route
         );
     }
 
-    public function _matchesRequestUri(string $requestURI): bool
-    {
+    public function _matchesRequestUri(string $requestURI): bool {
         return parent::_matchesAbsoluteRequestUri($requestURI);
     }
 }
