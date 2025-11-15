@@ -3,6 +3,8 @@
 class DashboardView extends View {
 
     public function render(): void {
+
+        $user = UserContext::Instance()->user;
         ?>
         <div class="uk-section">
             <div class="uk-container">

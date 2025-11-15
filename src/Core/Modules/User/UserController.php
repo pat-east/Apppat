@@ -83,10 +83,20 @@ class UserController extends Controller {
                     'status' => UserRegisterView::StatusUserAlreadyExists
                 ]);
         }
+
         $user = UserModel::Create($args['username'], $args['email'], $args['password']);
-        return new ViewHttpResult('UserWelcomeView',
+
+        if($user) {
+            new UserEncryption($user)->createAndStoreKeyPair();
+            return new ViewHttpResult('UserWelcomeView',
+                [
+                    'user' => $user
+                ]);
+        }
+
+        return new ViewHttpResult('UserRegisterView',
             [
-                'user' => $user
+                'status' => UserRegisterView::StatusError
             ]);
     }
 

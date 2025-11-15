@@ -52,6 +52,27 @@ class SessionConfig {
     }
 }
 
+class CrytpoConfig {
+    public const int DefaultKeyLength = 4096;
+
+    private ?string $userRsaKeyPairBaseDir = null;
+
+    public function __construct(array $dotenv) {
+        $this->userRsaKeyPairBaseDir = $dotenv['USER_RSA_KEY_PAIR_BASE_DIR'] ?? '';
+        if(!$this->userRsaKeyPairBaseDir) {
+            throw new Exception('USER_RSA_KEY_PAIR_BASE_DIR not configured in .env');
+        }
+
+        if(!file_exists($this->userRsaKeyPairBaseDir)) {
+            mkdir($this->userRsaKeyPairBaseDir, 0700, true);
+        }
+    }
+
+    public function getUserRsaKeyPairBaseDir(): ?string {
+        return $this->userRsaKeyPairBaseDir;
+    }
+}
+
 class Config {
     /** @var array<string, string> */
     static array $dotenv = [];
@@ -62,6 +83,8 @@ class Config {
 
     public static EnvironmentConfig $Environment;
 
+    public static CrytpoConfig $Crypto;
+
     public function init(): void {
         if(self::$dotenv == null) {
             if(file_exists(Defaults::DOTENVPATH)) {
@@ -69,6 +92,10 @@ class Config {
                 self::$MySql = new MySqlConfig(self::$dotenv);
                 self::$Environment = new EnvironmentConfig(self::$dotenv);
                 self::$Session = new SessionConfig(self::$dotenv);
+                self::$Crypto = new CrytpoConfig(self::$dotenv);
+            } else {
+                throw new Exception('.env file does not exist');
+
             }
 
         }

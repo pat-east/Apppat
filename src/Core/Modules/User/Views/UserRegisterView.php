@@ -6,6 +6,7 @@ class UserRegisterView extends View {
     public const string StatusInvalidEmail = 'invalid_email';
     public const string StatusInvalidPassword = 'invalid_pwd';
     public const string StatusInvalidPasswordRepeat = 'invalid_pwd_repeat';
+    public const string StatusError = 'error';
 
     public function render(): void {
 
@@ -74,6 +75,9 @@ class UserRegisterView extends View {
                 break;
             case self::StatusInvalidPasswordRepeat:
                 $errMsg = 'The passwords do not match.';
+                break;
+            case self::StatusError:
+                $errMsg = 'An error occurred.';
                 break;
         }
 

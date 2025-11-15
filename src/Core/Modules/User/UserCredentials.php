@@ -57,4 +57,6 @@ class UserCredentials {
     public static function VerifyEmail($email): bool {
         return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
     }
+
+
 }
