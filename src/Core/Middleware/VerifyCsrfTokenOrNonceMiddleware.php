@@ -28,7 +28,8 @@ class VerifyCsrfTokenOrNonceMiddleware extends InputMiddleware {
                 if (!Nonce::Verify(
                     $this->nonceSecret,
                     Sanitize::Text($_POST[Nonce::NONCE_PAYLOAD]),
-                    Sanitize::Text($_POST[Nonce::NONCE_NAME]))) {
+                    Sanitize::Text($_POST[Nonce::NONCE_NAME])))
+                {
                     Logger::Info(__FILE__, 'Could not verify nonce.');
                     return new InputMiddlewareResult(MiddlewareResultStatus::Failure);
                 }

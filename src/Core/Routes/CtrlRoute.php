@@ -9,14 +9,15 @@ class CtrlRoute extends Route {
      * @param array<string, string> $defaultArgs
      * @param string $nonceSecret
      */
-    public function __construct(string $route, callable $callUserFunc, array $defaultArgs = [], $nonceSecret = '') {
+    public function __construct(string $route, callable $callUserFunc, array $defaultArgs = [], $nonceSecret = '', $method = HttpMethod::Post) {
         parent::__construct(
             $route,
             function () use ($callUserFunc) {
                 return call_user_func($callUserFunc, new HttpRequestContext($this));
             },
-            HttpMethod::Post,
-            [new VerifyCsrfTokenOrNonceMiddleware($nonceSecret), new SanitizeRequestArgumentsMiddleware($defaultArgs)]);
+            $method,
+            [new VerifyCsrfTokenOrNonceMiddleware($nonceSecret), new SanitizeRequestArgumentsMiddleware($defaultArgs)],
+            [new ShortcodeMiddleware()]);
     }
 
     protected function _matchesRequestUri(string $requestURI): bool {

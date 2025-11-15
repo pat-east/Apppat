@@ -9,7 +9,7 @@ class AssetManager {
     /** @var array<string, Asset[]> */
     var array $registeredAssets;
 
-    /** @var Asset[]  */
+    /** @var Asset[] */
     var array $usingAssets;
 
     public function __construct() {
@@ -42,14 +42,14 @@ class AssetManager {
     }
 
     public function registerAsset(string $assetUid, string $scriptPath, AssetType $type, $requiredAssetUids = [], string $version = self::LatestVersion): void {
-        if(!isset($this->registeredAssets[$assetUid . ':' . $version])) {
+        if (!isset($this->registeredAssets[$assetUid . ':' . $version])) {
             $this->registeredAssets[$assetUid . ':' . $version] = [];
         }
 
         $required = array_map(
-            function($assetUid) {
-                return str_contains($assetUid, ':') ? $assetUid : $assetUid . ':' . self::LatestVersion;
-            }, $requiredAssetUids);
+                function ($assetUid) {
+                    return str_contains($assetUid, ':') ? $assetUid : $assetUid . ':' . self::LatestVersion;
+                }, $requiredAssetUids);
 
         $this->registeredAssets[$assetUid . ':' . $version][] = new Asset($assetUid, $scriptPath, $type, $required, $version);
     }
@@ -60,12 +60,12 @@ class AssetManager {
      * @throws Exception
      */
     public function use(string $assetUid, string $version = self::LatestVersion): void {
-        if(!isset($this->registeredAssets[$assetUid . ':' . $version])) {
+        if (!isset($this->registeredAssets[$assetUid . ':' . $version])) {
             throw new Exception(sprintf('Asset not found [uid=%s]', $assetUid));
         }
 
-        foreach($this->registeredAssets[$assetUid . ':' . $version] as $asset) {
-            foreach($asset->requiredAssetUids as $assetUid) {
+        foreach ($this->registeredAssets[$assetUid . ':' . $version] as $asset) {
+            foreach ($asset->requiredAssetUids as $assetUid) {
                 $parts = explode(':', $assetUid);
                 // TODO Eliminate potentially dangerous recursion
                 $this->use($parts[0], $parts[1]);
@@ -75,59 +75,61 @@ class AssetManager {
     }
 
     public function includeStyles(): void {
-        $assets = array_filter($this->usingAssets, function($asset) {
+        $assets = array_filter($this->usingAssets, function ($asset) {
             return $asset->type == AssetType::Stylesheet;
         });
-        foreach($assets as $asset) {
-            ?><link rel="stylesheet" href="<?= $asset->path ?>"><?php
+        foreach ($assets as $asset) {
+            ?>
+            <link rel="stylesheet" href="<?= $asset->path ?>"><?php
         }
     }
 
     public function includeScripts(): void {
-        $assets = array_filter($this->usingAssets, function($asset) {
+        $assets = array_filter($this->usingAssets, function ($asset) {
             return $asset->type == AssetType::JavaScript;
         });
-        foreach($assets as $asset) {
-            ?><script src="<?= $asset->path ?>" nonce="<?= Csp::CreateNonce() ?>"></script><?php
+        foreach ($assets as $asset) {
+            ?>
+            <script src="<?= $asset->path ?>" nonce="<?= Csp::CreateNonce() ?>"></script><?php
         }
     }
 
     private function registerDefaultScriptsAndStyles(): void {
         $this->registerStyle(
-            'kernux',
-            '/public/assets/node_modules/@kern-ux/native/dist/kern.min.css');
+                'kernux',
+                '/public/assets/node_modules/@kern-ux/native/dist/kern.min.css');
         $this->registerStyle(
-            'kernux',
-            '/public/assets/node_modules/@kern-ux/native/dist/fonts/fira-sans.css');
+                'kernux',
+                '/public/assets/node_modules/@kern-ux/native/dist/fonts/fira-sans.css');
 
         $this->registerScript(
-            'jquery',
-            '/public/assets/node_modules/jquery/dist/jquery.min.js');
+                'jquery',
+                '/public/assets/node_modules/jquery/dist/jquery.min.js');
 
         $this->registerScript(
-            'bootstrap',
-            '/public/assets/dist/bootstrap-4.1.3-dist/js/bootstrap.min.js',
-            ['jquery'], '4.1.3');
+                'bootstrap',
+                '/public/assets/dist/bootstrap-4.1.3-dist/js/bootstrap.min.js',
+                ['jquery'], '4.1.3');
         $this->registerStyle(
-            'bootstrap',
-            '/public/assets/dist/bootstrap-4.1.3-dist/css/bootstrap.min.css',
-            [], '4.1.3');
+                'bootstrap',
+                '/public/assets/dist/bootstrap-4.1.3-dist/css/bootstrap.min.css',
+                [], '4.1.3');
 
         $this->registerScript(
-            'bootstrap',
-            '/public/assets/node_modules/bootstrap/dist/js/bootstrap.min.js');
+                'bootstrap',
+                '/public/assets/node_modules/bootstrap/dist/js/bootstrap.min.js');
         $this->registerStyle(
-            'bootstrap',
-            '/public/assets/node_modules/bootstrap/dist/css/bootstrap.min.css');
+                'bootstrap',
+                '/public/assets/node_modules/bootstrap/dist/css/bootstrap.min.css');
 
         $this->registerScript(
-            'uikit',
-            '/public/assets/node_modules/uikit/dist/js/uikit.min.js');
+                'uikit',
+                '/public/assets/node_modules/uikit/dist/js/uikit.min.js');
         $this->registerScript(
-            'uikit',
-            '/public/assets/node_modules/uikit/dist/js/uikit-icons.min.js');
+                'uikit',
+                '/public/assets/node_modules/uikit/dist/js/uikit-icons.min.js');
         $this->registerStyle(
-            'uikit',
-            '/public/assets/node_modules/uikit/dist/css/uikit.min.css');
+                'uikit',
+                '/public/assets/node_modules/uikit/dist/css/uikit.min.css');
     }
 }

@@ -53,7 +53,7 @@ class UikitTheme extends Theme
                     <div class="uk-navbar-center">
                         <div class="uk-navbar-center-left">
                             <ul class="uk-navbar-nav">
-                                <li><a href="/user">Users</a></li>
+                                <li><a href="/about">About</a></li>
                             </ul>
                         </div>
                         <a class="uk-navbar-item uk-logo" href="/">
@@ -61,9 +61,7 @@ class UikitTheme extends Theme
                         </a>
                         <div class="uk-navbar-center-right">
                             <ul class="uk-navbar-nav">
-                                <li><a href="/about">About</a></li>
                                 <li><a href="/contact">Contact</a></li>
-                                <li><a href="/contact/inbox">Inbox</a></li>
                             </ul>
                         </div>
                     </div>
@@ -83,6 +81,68 @@ class UikitTheme extends Theme
                 </div>
             </div>
         </div>
+        <?php $this->renderUserBar(); ?>
+        <?php
+    }
+
+    function renderUserBar(): void {
+        $userContext = UserContext::Instance();
+        if($userContext->isUserLoggedIn) {
+            $this->renderLoggedInBar();
+        } else {
+            $this->renderNotLoggedInBar();
+        }
+    }
+
+    function renderNotLoggedInBar(): void {
+        ?>
+        <div class="uk-section uk-section-secondary uk-padding-small">
+            <div class="uk-container">
+                <div uk-navbar>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav">
+                            <div class="uk-navbar-item">
+                                <a href="/login" class="uk-button uk-button-default">
+                                    <span uk-icon="sign-in"></span> Login
+                                </a>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <?php
+    }
+
+    function renderLoggedInBar(): void {
+        $userContext = UserContext::Instance();
+        ?>
+        <div class="uk-section uk-section-secondary uk-padding-small">
+            <div class="uk-container">
+                <div uk-navbar>
+                    <div class="uk-navbar-left">
+                        <ul class="uk-navbar-nav">
+                            <li class="uk-active">
+                                <a href="/dashboard"><span uk-icon="user"></span> Dashboard (<?= $userContext->user->username ?>)</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav">
+
+                            <div class="uk-navbar-item">
+                                <a href="/logout" class="uk-button uk-button-default">
+                                    <span uk-icon="sign-out"></span> Logout
+                                </a>
+
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <?php
     }
 

@@ -2,10 +2,12 @@
 
 abstract class View {
 
-    var array $args = [];
+    var array $requestArgs = [];
+    var array $responseArgs = [];
 
-    public function __construct(array $args) {
-        $this->args = $args;
+    public function __construct(array $requestArgs, array $responseArgs = []) {
+        $this->requestArgs = $requestArgs;
+        $this->responseArgs = $responseArgs;
     }
 
     abstract public function render(): void;

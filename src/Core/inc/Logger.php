@@ -7,6 +7,7 @@ enum LogLevel {
     case Warning;
     case Error;
     case Critical;
+    case Debug;
 
     public function toString(): string
     {
@@ -14,7 +15,8 @@ enum LogLevel {
             LogLevel::Info => 'INFO',
             LogLevel::Warning => 'WARN',
             LogLevel::Error => 'ERROR',
-            LogLevel::Critical => 'CRIT'
+            LogLevel::Critical => 'CRIT',
+            LogLevel::Debug => 'DEBUG',
         };
     }
 }
@@ -25,6 +27,10 @@ class Logger {
 
     public static function Info(string $sender, string $fmt, mixed ...$values): void {
         self::Log($sender, LogLevel::Info, $fmt, $values);
+    }
+
+    public static function Debug(string $sender, string $fmt, mixed ...$values): void {
+        self::Log($sender, LogLevel::Debug, $fmt, $values);
     }
 
     public static function Error(string $sender, string $fmt, mixed ...$values): void {

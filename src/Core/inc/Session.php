@@ -12,7 +12,15 @@ class Session {
         self::$Instance = $this;
     }
 
-    function init(): void {
+    public function setUserUid($userUid): void {
+        $_SESSION['user_uid'] = $userUid;
+    }
+
+    public function getUserUid(): string|null {
+        return $_SESSION['user_uid'] ?? null;
+    }
+
+    public function init(): void {
 
         // Set recommended cookie options
         ini_set('session.name', Config::$Session->name);

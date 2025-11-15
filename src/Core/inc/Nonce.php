@@ -2,8 +2,8 @@
 
 class Nonce {
 
-    public const string NONCE_NAME = 'NONCE';
-    public const string NONCE_PAYLOAD = 'NONCE_PAYLOAD';
+    public const string NONCE_NAME = 'nonce';
+    public const string NONCE_PAYLOAD = 'nonce_payload';
 
     public static function Create(string $secret, ?string $payload = null) : Nonce {
         if($payload === null) {
@@ -13,6 +13,7 @@ class Nonce {
     }
 
     public static function Verify(string $secret, string $payload, string $token) : bool {
+//        Log::Debug(__FILE__, 'Verify nonce [secret=%s; payload=%s; token=%s]', $secret, $payload, $token);
         return $token === self::GenerateNonce($secret, $payload);
     }
 

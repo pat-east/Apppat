@@ -1,5 +1,6 @@
 <?php
 
+include_once('inc/Crypto.php');
 include_once('inc/Csp.php');
 include_once('inc/Cors.php');
 include_once('inc/Session.php');
@@ -73,7 +74,9 @@ class Core {
         $this->setup->init();
 
         // After all is set up and running, init the UserContext
-        new UserContext();
+        UserContext::Instance();
+
+        Dashboard::Instance();
 
 //        Log::Info(__FILE__, "Core initialized [version=%s]", Defaults::VERSION);
     }

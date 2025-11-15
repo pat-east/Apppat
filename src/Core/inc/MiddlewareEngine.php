@@ -48,7 +48,6 @@ class MiddlewareEngine {
     }
 
     private function runOutputMiddleware(Route $route, string $stdout): string {
-
         foreach (Helper::GetDerivingClasses('MandatoryOutputMiddleware') as $middlewareClass) {
             $middleware = new $middlewareClass();
             $result = $middleware->run($route, $stdout);
@@ -56,6 +55,7 @@ class MiddlewareEngine {
         }
 
         foreach ($route->outputMiddleware as $middleware) {
+
             $result = $middleware->run($route, $stdout);
             $stdout = $result->result == MiddlewareResultStatus::Success ? $result->processedStdout : $result->originalStdout;
         }

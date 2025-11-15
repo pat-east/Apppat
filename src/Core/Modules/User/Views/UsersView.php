@@ -1,7 +1,6 @@
 <?php
 
-class UsersView extends View
-{
+class UsersView extends View {
 
     public function render(): void {
         ?>
@@ -10,10 +9,8 @@ class UsersView extends View
         <?php
     }
 
-    public function renderListUsers(): void
-    {
-        $model = new UserModel();
-        $users = $model->getAll();
+    public function renderListUsers(): void {
+        $users = UserModel::GetAll();
         ?>
         <div class="uk-section">
             <div class="uk-container">
@@ -23,8 +20,6 @@ class UsersView extends View
                     <thead>
                     <tr>
                         <th>Username</th>
-                        <th>Firstname</th>
-                        <th>Lastname</th>
                         <th>Email</th>
                         <th></th>
                     </tr>
@@ -33,8 +28,6 @@ class UsersView extends View
                     <?php foreach ($users as $user): ?>
                         <tr>
                             <td><?= $user->username ?></td>
-                            <td><?= $user->firstname ?></td>
-                            <td><?= $user->lastname ?></td>
                             <td><?= $user->email ?></td>
                             <td><a href="/user/<?= $user->username ?>"><span uk-icon="link"></span></a></td>
                         </tr>

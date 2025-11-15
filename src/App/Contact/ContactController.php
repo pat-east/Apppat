@@ -8,7 +8,6 @@ class ContactController extends Controller {
         parent::__construct($core);
 
         $this->registerRoute(new ViewRoute('/contact', ContactView::class));
-        $this->registerRoute(new ViewRoute('/contact/inbox', ContactInboxView::class));
         $this->registerRoute(new ViewRoute('/contacted', ContactedView::class));
         $this->registerRoute(new CtrlRoute('/contact', [ $this, 'contact' ], [
             'name' => null,

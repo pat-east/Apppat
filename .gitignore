@@ -5,3 +5,5 @@ node_modules/
 .logs/
 php_errors.log
 .env
+
+vendor/

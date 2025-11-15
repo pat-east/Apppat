@@ -1,0 +1,17 @@
+{
+    "name": "ostfeld/apppat",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Ostfeld\\Apppat\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Patrick Ostfeld"
+        }
+    ],
+    "require": {
+        "illuminate/database": "^12.36"
+    }
+}
