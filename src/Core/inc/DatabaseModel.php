@@ -21,7 +21,7 @@ abstract class DatabaseModel extends Model {
     private function _createTableIfNotExists() {
         $schema_builder = Capsule::connection()->getSchemaBuilder();
         if(!$schema_builder->hasTable($this->tableName)) {
-            Log::Info(__FILE__, "Table {$this->tableName} does not exist.");
+            Log::Info(__FILE__, "Table {$this->tableName} does not yet. Creating it now.");
             $this->createTable();
         }
     }

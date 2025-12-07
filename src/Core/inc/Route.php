@@ -5,7 +5,7 @@ abstract class Route {
     var string $route;
     var HttpMethod $method;
 
-    /** @var Closure(array<string, string>) : HttpResult */
+    /** @var Closure(array<string, string>) : HttpResultContext */
     var \Closure $httpResultHandler;
     var array $args = [];
 
@@ -16,7 +16,7 @@ abstract class Route {
     var array $outputMiddleware = [];
 
     /**
-     * @param \Closure(HttpRequestContext): HttpResult $handler
+     * @param \Closure(HttpRequestContext): HttpResultContext $handler
      * @param InputMiddleware[] $inputMiddleware
      * @param OutputMiddleware[] $outputMiddleware
      */

@@ -3,6 +3,10 @@
 include_once('inc/Crypto.php');
 include_once('inc/Csp.php');
 include_once('inc/Cors.php');
+include_once('inc/QrCode.php');
+include_once('inc/Totp.php');
+include_once('inc/Mail.php');
+include_once('inc/MailTemplate.php');
 include_once('inc/Session.php');
 include_once('inc/CsrfToken.php');
 include_once('inc/Nonce.php');

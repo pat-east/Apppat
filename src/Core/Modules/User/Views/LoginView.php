@@ -11,7 +11,7 @@ class LoginView extends View {
         ?>
         <div class="uk-section">
             <div class="uk-container">
-
+                <h1>Login</h1>
                 <?php if($status == self::StatusInvalidLogin) : ?>
                 [html-callout message="Invalid login. Please check username/email and password."]
                 <?php endif; ?>
@@ -30,10 +30,33 @@ class LoginView extends View {
                             <input name="password" class="uk-input" id="form-login" type="password" placeholder="">
                         </div>
                     </div>
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="form-login">MFA code</label>
+                        <div class="uk-form-controls">
+                            <input name="totp-code" class="uk-input" id="form-login" type="text" placeholder="">
+                            <small>If enabled</small>
+                        </div>
+                    </div>
                     <div class="uk-text-right">
                         <p><button type="submit" class="uk-button uk-button-primary">Login</button></p>
                     </div>
                 </form>
+            </div>
+        </div>
+        <div class="uk-section uk-section-muted">
+            <div class="uk-container">
+                <h2>Having issues to logging in?</h2>
+
+                <p>
+                    <strong>Have you lost your password?</strong>
+                    <br>
+                    <a href="/recover-password">Recover your password</a>
+                </p>
+                <p>
+                    <strong>Unable to create multi-factor authentication codes?</strong>
+                    <br>
+                    <a href="/recover-mfa-totp">Recover multi-factor authentication</a>
+                </p>
             </div>
         </div>
         <?php

@@ -1,5 +1,20 @@
 <?php
 
+class AppConfig {
+
+    /** @var bool
+     * If this option is enabled, password recovery will always give
+     * status StatusRecoveryMailSent, even if no account exists.
+     */
+    public bool $PasswordRecoveryFalsePositive;
+
+    public int $PasswordExpirationInDays = 365;
+
+    public function __construct(array $dotenv) {
+        $this->PasswordRecoveryFalsePositive = true;
+    }
+}
+
 class EnvironmentConfig {
 
     public string $noncePayload;
@@ -73,9 +88,45 @@ class CrytpoConfig {
     }
 }
 
+class MailConfig {
+    public bool $useSmtp;
+    public string $smtpHost;
+    public int $smtpPort;
+    public string $smtpUsername;
+    public string $smtpPassword;
+    public string $smtpEncryption;
+
+    public string $fromAddress;
+    public string $fromName;
+
+    public int $smtpTimeout = 10;
+
+    /**
+     * @param array<string, string> $dotenv
+     */
+    public function __construct(array $dotenv) {
+        $this->useSmtp = isset($dotenv['USE_SMTP']) && $dotenv['USE_SMTP'];
+        $this->smtpHost = $dotenv['SMTP_HOST'] ?? '';
+        $this->smtpPort = isset($dotenv['SMTP_PORT']) ? intval($dotenv['SMTP_PORT']) : 587; // We dont use 25 anymore
+        $this->smtpUsername = $dotenv['SMTP_USERNAME'] ?? '';
+        $this->smtpPassword = $dotenv['SMTP_PASSWORD'] ?? '';
+        $this->fromAddress = $dotenv['FROM_ADDRESS'] ?? '';
+        $this->fromName = $dotenv['FROM_NAME'] ?? '';
+        $this->smtpEncryption = $dotenv['SMTP_ENCRYPTION'] ?? '';
+        if($this->smtpEncryption && !in_array($this->smtpEncryption, ['ssl', 'tls'])) {
+            throw new Exception(
+                sprintf(
+                    'SMTP_ENCRYPTION not properly configured using [%s]. It must be one of ["ssl", "tls"].',
+                    $this->smtpEncryption));
+        }
+    }
+}
+
 class Config {
     /** @var array<string, string> */
     static array $dotenv = [];
+
+    public static AppConfig $AppConfig;
 
     public static MySqlConfig $MySql;
 
@@ -85,14 +136,18 @@ class Config {
 
     public static CrytpoConfig $Crypto;
 
+    public static MailConfig $MailConfig;
+
     public function init(): void {
         if(self::$dotenv == null) {
             if(file_exists(Defaults::DOTENVPATH)) {
                 self::$dotenv = parse_ini_file(Defaults::DOTENVPATH);
+                self::$AppConfig = new AppConfig(self::$dotenv);
                 self::$MySql = new MySqlConfig(self::$dotenv);
                 self::$Environment = new EnvironmentConfig(self::$dotenv);
                 self::$Session = new SessionConfig(self::$dotenv);
                 self::$Crypto = new CrytpoConfig(self::$dotenv);
+                self::$MailConfig = new MailConfig(self::$dotenv);
             } else {
                 throw new Exception('.env file does not exist');
 

@@ -9,6 +9,6 @@ class ChangeUserPasswordDashboardItem extends DashboardItem {
             'settings',
             '/dashboard/user/settings/password',
             'ChangeUserPasswordView'
-                );
+        );
     }
 }

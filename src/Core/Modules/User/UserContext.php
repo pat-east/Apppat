@@ -16,7 +16,10 @@ class UserContext {
     public Session $session;
 
     public UserModel $user;
+
     public UserEncryption $userEncryption;
+
+    public UserCredentials $userCredentials;
 
     private function __construct() {
         if(self::$Instance != null) {
@@ -62,6 +65,7 @@ class UserContext {
         if($userUid = $this->session->getUserUid()) {
             $this->user = UserModel::GetByUid($userUid);
             $this->userEncryption = new UserEncryption($this->user);
+            $this->userCredentials = new UserCredentials($this->user);
             $this->isUserLoggedIn = true;
         } else {
             $this->user = new UserModel();

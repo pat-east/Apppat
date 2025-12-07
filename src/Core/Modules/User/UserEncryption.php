@@ -29,6 +29,17 @@ class UserEncryption {
     /**
      * @throws Exception
      */
+    public function createAndStoreKeyPair(): void {
+        $keyPair = Crypto::CreateRsaKeyPair();
+        file_put_contents($this->userRsaPrivateKeyPath, $keyPair['private_key']);
+        file_put_contents($this->userRsaPublicKeyPath, $keyPair['public_key']);
+        chmod($this->userRsaPrivateKeyPath, 0600);
+        chmod($this->userRsaPublicKeyPath, 0600);
+    }
+
+    /**
+     * @throws Exception
+     */
     public function decrypt(string $data): string {
         $key = file_get_contents($this->userRsaPrivateKeyPath);
         return Crypto::DecryptRsa($data, $key);
@@ -42,17 +53,6 @@ class UserEncryption {
                 Log::Error(__FILE__, 'Could not RSA keypair for user [ex=%s]', $e->getMessage());
             }
         }
-    }
-
-    /**
-     * @throws Exception
-     */
-    private function createAndStoreKeyPair(): void {
-        $keyPair = Crypto::CreateRsaKeyPair();
-        file_put_contents($this->userRsaPrivateKeyPath, $keyPair['private_key']);
-        file_put_contents($this->userRsaPublicKeyPath, $keyPair['public_key']);
-        chmod($this->userRsaPrivateKeyPath, 0600);
-        chmod($this->userRsaPublicKeyPath, 0600);
     }
 
     private function keyPairExists(): bool {

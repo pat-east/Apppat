@@ -10,7 +10,8 @@ class RegexViewRoute extends Route
     {
         parent::__construct($route, function () use ($viewClassName) {
             return new ViewHttpResult($viewClassName);
-        }, HttpMethod::Get);
+        }, HttpMethod::Get, [],
+            [new ShortcodeMiddleware()]);
     }
 
     public function _matchesRequestUri(string $requestURI): bool

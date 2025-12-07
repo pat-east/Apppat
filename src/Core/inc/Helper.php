@@ -24,7 +24,10 @@ class InputHelper {
 
 class Helper {
 
-    public static function GetDerivingClasses($baseClassName) {
+    /**
+     * @return string[]
+     */
+    public static function GetDerivingClasses($baseClassName): array {
         $classes = [];
         foreach(get_declared_classes() as $class) {
             if(is_subclass_of($class, $baseClassName)) {
@@ -33,6 +36,11 @@ class Helper {
         }
 
         return $classes;
+    }
+
+    public static function GetDerivingClass($baseClassName): string {
+        $classes = self::GetDerivingClasses($baseClassName);
+        return array_shift($classes);
     }
 
     public static function CreateUuidV4() : string {

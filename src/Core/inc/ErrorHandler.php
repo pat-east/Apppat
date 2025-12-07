@@ -11,7 +11,8 @@ class ErrorHandler {
     }
 
     public function handleException(Throwable $exception): never {
-        $this->handleError($exception->getCode(), $exception->getMessage(), $exception->getFile(), $exception->getLine());
+        /** getCode() might also return non-int values. This cast fixes this issue. */
+        $this->handleError((int)$exception->getCode(), $exception->getMessage(), $exception->getFile(), $exception->getLine());
     }
 
     private function errorHandlerCallback(int $errno, string $errstr, string $errfile, int $errline): never {

@@ -1,6 +1,6 @@
 <?php
 
-class RedirectHttpResult extends HttpResult {
+class RedirectHttpResult extends HttpResultContext {
 
     var string $redirectUrl;
 

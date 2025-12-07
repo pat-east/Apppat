@@ -6,12 +6,16 @@ class Defaults {
 
     const VERSION = '0.0.1';
     const APPTITLE = 'AppPat';
+    const BASEURL = 'http://dev.local'; // Omit trailing-slash
     const ABSPATH = __ABSPATH__;
     const DOTENVPATH = __ABSPATH__ . '/.env';
     const BUILD_IN_SHORTCODES_PATH = __ABSPATH__ . '/Core/inc/Shortcodes';
     const SETUPPATH = __ABSPATH__ . '/Core/Setup';
     const LOGS_PATH = self::ABSPATH . '/.logs';
     const LOG_FILE = self::LOGS_PATH . '/log.txt';
+
+    const YES = 'Y';
+    const NOH = 'N';
 
     public function init(): void {
         if(!is_dir(self::LOGS_PATH)) {

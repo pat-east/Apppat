@@ -96,7 +96,7 @@ class UikitTheme extends Theme
 
     function renderNotLoggedInBar(): void {
         ?>
-        <div class="uk-section uk-section-secondary uk-padding-small">
+        <div class="uk-section uk-section-secondary uk-padding-remove-top uk-padding-remove-bottom">
             <div class="uk-container">
                 <div uk-navbar>
                     <div class="uk-navbar-right">
@@ -118,7 +118,7 @@ class UikitTheme extends Theme
     function renderLoggedInBar(): void {
         $userContext = UserContext::Instance();
         ?>
-        <div class="uk-section uk-section-secondary uk-padding-small">
+        <div class="uk-section uk-section-secondary uk-padding-remove-top uk-padding-remove-bottom">
             <div class="uk-container">
                 <div uk-navbar>
                     <div class="uk-navbar-left">
@@ -130,12 +130,10 @@ class UikitTheme extends Theme
                     </div>
                     <div class="uk-navbar-right">
                         <ul class="uk-navbar-nav">
-
                             <div class="uk-navbar-item">
                                 <a href="/logout" class="uk-button uk-button-default">
                                     <span uk-icon="sign-out"></span> Logout
                                 </a>
-
                             </div>
                         </ul>
                     </div>
@@ -150,18 +148,52 @@ class UikitTheme extends Theme
         ?>
         <div class="uk-section uk-section-secondary uk-light">
             <div class="uk-container">
-
-                <h3>Section</h3>
-
-                <div class="uk-grid-match uk-child-width-1-3@m" uk-grid>
+                <div class="uk-child-width-1-3@m" uk-grid>
                     <div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+                        <h3>AppPat</h3>
+                        <ul class="uk-list">
+                            <li><a href="/about">About the Project</a></li>
+                            <li><a href="#">Documentation</a></li>
+                            <li><a href="#">Changelog</a></li>
+                            <li><a href="/license">License</a></li>
+                        </ul>
                     </div>
+
                     <div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+                        <h3>Community</h3>
+                        <ul class="uk-list">
+                            <li><a href="#">Report a Vulnerability</a></li>
+                            <li><a href="#">Community Portal</a></li>
+                            <li><a href="#">How to Contribute</a></li>
+                            <li><a href="#">Roadmap</a></li>
+                            <li><a href="#">Issue Tracker</a></li>
+                        </ul>
                     </div>
+
                     <div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+                        <h3>Developer Resources</h3>
+                        <ul class="uk-list">
+                            <li>
+                                <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers" target="_blank" rel="noopener">
+                                    MDN: HTTP Security Headers
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP" target="_blank" rel="noopener">
+                                    MDN: Content Security Policy (CSP)
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://owasp.org/www-project-cheat-sheets/" target="_blank" rel="noopener">
+                                    OWASP Cheat Sheets
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://owasp.org/www-project-developer-guide/" target="_blank" rel="noopener">
+                                    OWASP Developer Guide
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
 

@@ -9,6 +9,12 @@ class Crypto {
     public const string NumbersKeyspace = '0123456789';
     public const string SpecialCharacterKeyspace = '!@#$%^&*()-_=+?.,';
 
+    public const string PasswordKeyspace =
+        self::UppercaseCharactersKeyspace
+        .self::LowercaseCharactersKeyspace
+        .self::NumbersKeyspace
+        .self::SpecialCharacterKeyspace;
+
     /**
      * @throws RandomException
      */
@@ -17,6 +23,10 @@ class Crypto {
         $data[6] = chr((ord($data[6]) & 0x0f) | 0x40);
         $data[8] = chr((ord($data[8]) & 0x3f) | 0x80);
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+    }
+
+    public static function Sha515(string $payload): string {
+        return hash('sha512', $payload);
     }
 
     /**

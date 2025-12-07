@@ -1,6 +1,6 @@
 <?php
 
-class ViewHttpResult extends HttpResult {
+class ViewHttpResult extends HttpResultContext {
 
     var string $viewClassName;
     var mixed $responseArgs;

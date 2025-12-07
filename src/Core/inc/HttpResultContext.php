@@ -1,5 +1,5 @@
 <?php
 
-abstract class HttpResult {
+abstract class HttpResultContext {
     public abstract function run(HttpRequestContext $request);
 }

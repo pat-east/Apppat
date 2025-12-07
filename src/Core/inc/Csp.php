@@ -29,7 +29,7 @@ class Csp {
 
         return [
             'default-src' => [$self],
-            'img-src' => ["'self'"],
+            'img-src' => ["'self'", 'data:'],
             'style-src' => ["'self'"],
             'script-src' => ["'nonce-$nonce'", "'strict-dynamic'"],
             'frame-src' => ["'none'"],

@@ -58,5 +58,45 @@ class UserCredentials {
         return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
     }
 
+    var UserModel $user;
+    var UserPasswordRecoveryModel $userPasswordRecoveryModel;
+
+    var UserTotp $totp;
+
+    public function __construct(UserModel $user) {
+        $this->user = $user;
+        $this->userPasswordRecoveryModel = new UserPasswordRecoveryModel();
+        $this->totp = new UserTotp($user);
+
+    }
+
+    public function sendRecoverPasswordMail(): bool {
+
+        if($this->user->email) {
+
+            $recovery = $this->userPasswordRecoveryModel->createRecovery(
+                $this->user->uid, $this->user->username, $this->user->email);
+            $recoveryLink = sprintf('%s/password-recovery/%s', Defaults::BASEURL, $recovery->recoveryToken);
+
+            $body = '
+<p>Follow the link to a new password:</p>
+<a href="{recover-password-link}">Set new password</a>
+<p><small>This link is available until ...</small></p>
+<p><small>Please ignore this mail, if you have not initiated password recovery.</small></p>';
+
+            $body = str_replace('{recover-password-link}', $recoveryLink, $body);
+
+            $mail = new Mail();
+            $mail->addReceiver($this->user->email);
+            $mail->addReceiver($this->user->email, $this->user->username);
+            $mail->setHeadline('Password recovery');
+            $mail->setSubline('Set a new password');
+            $mail->setSubject('Recover your password');
+            $mail->setBody($body);
+            $mail->send();
+            return true;
+        }
+        return false;
+    }
 
 }
