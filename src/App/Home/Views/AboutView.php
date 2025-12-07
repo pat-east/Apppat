@@ -9,7 +9,7 @@ class AboutView extends View {
                 <h1>About <?= Defaults::APPTITLE ?></h1>
                 <h2>About the Project</h2>
                 <p>
-                    Launched in 2024, this project delivers a security-focused application framework
+                    Launched in 2025, this project delivers a security-focused application framework
                     that forms a robust foundation for modern web applications.
                 </p>
                 <ul class="uk-list uk-list-bullet">
