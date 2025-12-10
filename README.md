@@ -33,7 +33,7 @@ A lightweight yet powerful PHP framework with built-in security features for bui
 - GD extension (https://www.php.net/manual/en/book.image.php)
 
 ## Web-server
-I do prefer using NGINX with PHP-FPM instead of Apache. But Apache will also work just fine. 
+*1 I do prefer using NGINX with PHP-FPM instead of Apache. But Apache will also work just fine. 
 
 ### Web-server configuration
 Make sure to meet the following requirements:
