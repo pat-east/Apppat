@@ -16,12 +16,12 @@ A lightweight yet powerful PHP framework with built-in security features for bui
 - Built-in user login and registration
 - Built-in usage of HTTP security headers
 - Native support for Content Security Policy (CSP) headers
-- MDN Documentation on CSP
 - Two-Factor Authentication (2FA) with TOTP
-- Modular architecture for easy extension via modules
-- Small footprint; optional dependencies only when needed (e.g., ORM, PDF library)
+- Modular architecture for easy extension
+- 100% object oriented (OOP)
+- Small footprint; additional dependencies only when needed (e.g., ORM, PDF library)
 - ORM powered by Illuminate/Database (as known from the Laravel framework)
-- 100% PHP with modern PHP 8
+- Pure PHP using modern features from PHP 8.x
 - Strict typing for improved type safety
 
 # Get it up and running
