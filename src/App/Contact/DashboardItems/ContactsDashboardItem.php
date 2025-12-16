@@ -8,7 +8,12 @@ class ContactsDashboardItem extends DashboardItem {
             'Contacts',
             'comments',
             '/dashboard/inbox',
-            'ContactInboxView'
+            'ContactInboxView',
+            [ new AdminPrivilege() ]
         );
+    }
+
+    protected function getRequiredUserPrivileges(): array {
+        return [ ManageContactInboxPrivilege::class ];
     }
 }

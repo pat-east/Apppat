@@ -8,7 +8,12 @@ class ChangeUserPasswordDashboardItem extends DashboardItem {
             'User settings',
             'settings',
             '/dashboard/user/settings/password',
-            'ChangeUserPasswordView'
+            'ChangeUserPasswordView',
+            [ new NonePrivilege() ]
         );
+    }
+
+    protected function getRequiredUserPrivileges(): array {
+        return [ UserProfilePrivilege::class ];
     }
 }

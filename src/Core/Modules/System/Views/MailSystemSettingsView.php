@@ -16,7 +16,7 @@ class MailSystemSettingsView extends View {
                 <h2>Test</h2>
                 <?php if($status == self::STATUS_TEST_MAIL_FAILED) : ?>
                     [html-callout message="Could not send mail"]
-                <?php else : ?>
+                <?php elseif($status == self::STATUS_TEST_MAIL_SUCCESS) : ?>
                     [html-callout message="Successfully sent mail"]
                 <?php endif; ?>
                 <form class="uk-form-horizontal uk-margin-large" action="/system/mail/test" method="post">

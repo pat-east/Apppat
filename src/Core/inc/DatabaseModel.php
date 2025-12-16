@@ -18,7 +18,7 @@ abstract class DatabaseModel extends Model {
 
     protected abstract function createTable() : void;
 
-    private function _createTableIfNotExists() {
+    private function _createTableIfNotExists(): void {
         $schema_builder = Capsule::connection()->getSchemaBuilder();
         if(!$schema_builder->hasTable($this->tableName)) {
             Log::Info(__FILE__, "Table {$this->tableName} does not yet. Creating it now.");

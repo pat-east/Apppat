@@ -52,30 +52,45 @@ class Helper {
     }
 
     public static function IncludeOnce(string $path, bool $recursivly = false): void {
-        self::__($path, $recursivly, function($file) { include_once($file); });
+        self::__($path, $recursivly, function($file) { include_once($file); }, true);
     }
 
     public static function Include(string $path, bool $recursivly = false): void {
-        self::__($path, $recursivly, function($file) { include($file); });
-    }
-
-    public static function Require(string $path, bool $recursivly = false): void {
-        self::__($path, $recursivly, function($file) { require($file); });
+        self::__($path, $recursivly, function($file) { include($file); }, false);
     }
 
     public static function RequireOnce(string $path, bool $recursivly = false): void {
-        self::__($path, $recursivly, function($file) { require_once($file); });
+        self::__($path, $recursivly, function($file) { require_once($file); }, true);
     }
 
-    static function __(string $path, bool $recursivly, Callable $handler): void {
+    public static function Require(string $path, bool $recursivly = false): void {
+        self::__($path, $recursivly, function($file) { require($file); }, false);
+    }
+
+    /**
+     * @param bool $preferIncFolder
+     * Prefer including /inc-folder.
+     * Inside /inc-folder base classes are defined.
+     * Enabling this option might result in multiple inclusions of files within /inc-folder.
+     * So it is recommended to set this option only by using require_once() and include_once().
+     * Using this option with require() and include() might result in an error or
+     * strange behavior.
+     */
+    static function __(string $path, bool $recursivly, Callable $handler, bool $preferIncFolder): void {
         if(is_dir($path)) {
+            if($preferIncFolder) {
+                if(!str_ends_with($path, '/inc')) {
+                    self::__($path . '/inc', true, $handler, false);
+                }
+            }
+
             $filesWithinFolder = scandir($path);
             foreach($filesWithinFolder as $file) {
                 if(!str_starts_with($file, '.')) {
                     if(is_file($path . '/' . $file)) {
                         $handler($path . '/' . $file);
                     } else if($recursivly) {
-                        self::__($path . '/' . $file, true, $handler);
+                        self::__($path . '/' . $file, true, $handler, $preferIncFolder);
                     }
                 }
             }

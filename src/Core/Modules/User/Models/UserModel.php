@@ -85,6 +85,7 @@ class UserModel extends DatabaseModel {
     var string $uid;
     var string $username;
     var string $email;
+    var ?string $roles;
     var bool $totpEnabled;
 
     public function __construct($user = null) {
@@ -95,6 +96,7 @@ class UserModel extends DatabaseModel {
             $this->username = $user->username;
             $this->email = $user->email;
             $this->totpEnabled = $user->totp_enabled === Defaults::YES;
+            $this->roles = $user->roles;
         }
     }
 
@@ -155,6 +157,7 @@ class UserModel extends DatabaseModel {
             $table->string('totp_enabled', 1)->nullable();
             $table->string('totp_secret', 4096)->nullable();
             $table->string('totp_recovery_key', 4096)->nullable();
+            $table->string('roles')->default(Config::$AppConfig->DefaultUserRole);
 
             $table->timestamps();
             $table->primary('uid');
@@ -164,7 +167,8 @@ class UserModel extends DatabaseModel {
          * Move creating an admin-account to a setup-routine which will be introduced later on. */
         $adminUsr = 'admin_' . Crypto::CreateRandomString(8, 'abcdefghijklmnopqrstuvwxyz0123456789');
         $adminPwd = UserCredentials::CreateRandomPassword();
-        self::Create($adminUsr, '', $adminPwd, new DateTime());
+        $userModel = self::Create($adminUsr, '', $adminPwd, new DateTime());
+        $userModel->update('roles', 'sysadmin');
         Log::Info(__FILE__, 'Created admin user [username=%s; password=%s]', $adminUsr, $adminPwd);
     }
 

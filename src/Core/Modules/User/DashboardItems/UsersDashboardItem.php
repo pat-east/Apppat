@@ -3,12 +3,17 @@
 class UsersDashboardItem extends DashboardItem {
     public function __construct() {
         parent::__construct(
-            'Users',
-            'See all registered users.',
+            'Users and roles',
+            'See all registered users and roles.',
             'User settings',
             'users',
-            '/dashboard/users',
-            'UsersView'
+            '/dashboard/user',
+            'UsersView',
+            [ new UserProfilePrivilege() ]
         );
+    }
+
+    protected function getRequiredUserPrivileges(): array {
+        return [ AdminPrivilege::class ];
     }
 }

@@ -8,7 +8,12 @@ class MailSystemSettingsDashboardItem extends DashboardItem {
             'Mail settings',
             'mail',
             '/dashboard/system/settings/mail',
-            'MailSystemSettingsView'
+            'MailSystemSettingsView',
+            [ new SysConfigPrivilege() ]
         );
+    }
+
+    protected function getRequiredUserPrivileges(): array {
+        return [ UserProfilePrivilege::class ];
     }
 }

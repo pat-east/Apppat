@@ -29,5 +29,10 @@ class ModelManager {
             'collation' => 'utf8_unicode_ci',
             'prefix' => Config::$MySql->tablePrefix,
         ]);
+
+        $classes = Helper::GetDerivingClasses('DatabaseModel');
+        foreach ($classes as $class) {
+            new $class();
+        }
     }
 }

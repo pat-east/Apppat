@@ -16,7 +16,7 @@ class Dashboard {
     private array $dashboardItemCategories;
 
     private function __construct() {
-
+        $this->dashboardItemCategories = [];
     }
 
     /**
@@ -27,35 +27,45 @@ class Dashboard {
     }
 
     public function init(): void {
-        $categories = [];
-        $items = Helper::GetDerivingClasses('DashboardItem');
 
-        foreach ($items as $item) {
-            $itemInstance = new $item();
-            if(!array_key_exists($itemInstance->category, $categories)) {
-                $categories[$itemInstance->category] = [];
-            }
-            $categories[$itemInstance->category][] = $itemInstance;
-        }
+        if(UserContext::Instance()->isUserLoggedIn) {
+            $userPrivileges = UserContext::Instance()->userRoles->getPrivileges();
+            $categories = [];
+            $items = Helper::GetDerivingClasses('DashboardItem');
 
-        $this->dashboardItemCategories = $categories;
-
-        // Order categories by name
-        ksort($this->dashboardItemCategories);
-        // Order items by name
-        foreach ($this->dashboardItemCategories as $category => $items) {
-            usort($this->dashboardItemCategories[$category], function ($a, $b) {
-                return strcmp($a->title, $b->title);
-            });
-
-        }
-
-        // Now register the urls ...
-        foreach ($this->dashboardItemCategories as $category => $items) {
             foreach ($items as $item) {
-                DashboardController::Instance()->registerDashboardItemRoute($item);
+                /** @var DashboardItem $itemInstance */
+                $itemInstance = new $item();
+
+                if(!$itemInstance->isAccessable($userPrivileges))
+
+                if(!array_key_exists($itemInstance->category, $categories)) {
+                    $categories[$itemInstance->category] = [];
+                }
+                $categories[$itemInstance->category][] = $itemInstance;
+            }
+
+            $this->dashboardItemCategories = $categories;
+
+            // Order categories by name
+            ksort($this->dashboardItemCategories);
+            // Order items by name
+            foreach ($this->dashboardItemCategories as $category => $items) {
+                usort($this->dashboardItemCategories[$category], function ($a, $b) {
+                    return strcmp($a->title, $b->title);
+                });
+
+            }
+
+            // Now register the urls ...
+            foreach ($this->dashboardItemCategories as $category => $items) {
+                foreach ($items as $item) {
+                    DashboardController::Instance()->registerDashboardItemRoute($item);
+                }
             }
         }
+
+
 
     }
 }

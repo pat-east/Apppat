@@ -43,7 +43,7 @@ class UserController extends Controller {
             'new-password-repeat' => '',
         ], self::NONCE_SECRET));
 
-        $this->registerRoute(new RegexViewRoute('#^/user/(?P<username>[^/]+)/?$#', 'UserView'));
+        $this->registerRoute(new RegexViewRoute('#^/dashboard/user/(?P<username>[^/]+)/?$#', 'UserView'));
     }
 
     public function loginUser(HttpRequestContext $request): HttpResultContext {

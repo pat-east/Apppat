@@ -21,6 +21,8 @@ class UserContext {
 
     public UserCredentials $userCredentials;
 
+    public UserRoles $userRoles;
+
     private function __construct() {
         if(self::$Instance != null) {
             return;
@@ -61,14 +63,36 @@ class UserContext {
         return false;
     }
 
+    /**
+     * @param class-string[] $privilege One or more strings of class-names of UserPrivilege classes.
+     * @return bool Return true, if current user has privileges.
+     */
+    public function hasPrivilege(... $privileges): bool {
+        if(!$this->isUserLoggedIn) { return false; }
+        if(count($privileges) === 0) { return false; }
+
+        $userPrivs = $this->userRoles->getPrivilegesUids();
+        foreach($privileges as $priv) {
+            if(!in_array($priv, $userPrivs)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     private function init() {
+        $this->user = new UserModel();
+
         if($userUid = $this->session->getUserUid()) {
-            $this->user = UserModel::GetByUid($userUid);
-            $this->userEncryption = new UserEncryption($this->user);
-            $this->userCredentials = new UserCredentials($this->user);
-            $this->isUserLoggedIn = true;
-        } else {
-            $this->user = new UserModel();
+            if($user = UserModel::GetByUid($userUid)) {
+                $this->user = $user;
+                $this->userEncryption = new UserEncryption($this->user);
+                $this->userCredentials = new UserCredentials($this->user);
+                $this->userRoles = new UserRoles($this->user);
+                $this->isUserLoggedIn = true;
+            }
+
         }
     }
 }

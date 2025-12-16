@@ -1,5 +1,29 @@
 <?php
 
+//register_shutdown_function('__fatal_error_handler');
+
+function __fatal_error_handler() {
+
+
+    $error = error_get_last();
+
+    if($error !== NULL) {
+        $errno   = $error["type"];
+        $errfile = $error["file"];
+        $errline = $error["line"];
+        $errstr  = $error["message"];
+
+        ?>
+        <hr>
+        <p><?= $errfile ?>:<?= $errline ?></p>
+        <pre style="white-space: pre-wrap; "><?= $errstr ?></pre>
+
+
+        <?php
+
+    }
+}
+
 class ErrorHandler {
 
     public function __construct() {
@@ -8,6 +32,8 @@ class ErrorHandler {
 
     public function init(): void {
         set_error_handler([$this, 'handleError'], E_ALL & ~E_NOTICE & ~E_USER_NOTICE);
+
+
     }
 
     public function handleException(Throwable $exception): never {

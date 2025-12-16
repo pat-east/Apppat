@@ -10,6 +10,8 @@ class AppConfig {
 
     public int $PasswordExpirationInDays = 365;
 
+    public string $DefaultUserRole = 'user'; // See StandardUserRole
+
     public function __construct(array $dotenv) {
         $this->PasswordRecoveryFalsePositive = true;
     }
