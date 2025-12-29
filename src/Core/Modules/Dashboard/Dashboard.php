@@ -2,20 +2,12 @@
 
 class Dashboard {
 
-    private static ?Dashboard $Instance;
-
-    public static function Instance(): Dashboard {
-        if (!isset(self::$Instance)) {
-            self::$Instance = new Dashboard();
-            self::$Instance->init();
-        }
-        return self::$Instance;
-    }
+    public static ?Dashboard $Instance;
 
     /** @var array<string, DashboardItem[]> */
     private array $dashboardItemCategories;
 
-    private function __construct() {
+    public function __construct() {
         $this->dashboardItemCategories = [];
     }
 
@@ -28,8 +20,10 @@ class Dashboard {
 
     public function init(): void {
 
-        if(UserContext::Instance()->isUserLoggedIn) {
-            $userPrivileges = UserContext::Instance()->userRoles->getPrivileges();
+        self::$Instance = $this;
+
+        if(UserContext::$Instance->isUserLoggedIn) {
+            $userPrivileges = UserContext::$Instance->userRoles->getPrivileges();
             $categories = [];
             $items = Helper::GetDerivingClasses('DashboardItem');
 

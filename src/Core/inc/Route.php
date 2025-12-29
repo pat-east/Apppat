@@ -38,7 +38,6 @@ abstract class Route {
      * @param array<string, string> $args
      */
     public function setRequestArguments(array $args): void {
-
         $this->args = array_merge($this->args, $args);
     }
 

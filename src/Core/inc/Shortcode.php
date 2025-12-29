@@ -14,9 +14,11 @@ abstract class Shortcode {
      * @param string $content
      */
     function __construct(array $attrs, string $content) {
-        $this->attrs = $attrs;
+        $this->attrs = array_merge($this->getDefaultArgs(), $attrs);
         $this->content = $content;
     }
 
     abstract function process(): string;
+
+    abstract function getDefaultArgs(): array;
 }

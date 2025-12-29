@@ -36,8 +36,8 @@ class UserMfaController extends Controller {
     public function enableMfaTotp(HttpRequestContext $request): HttpResultContext {
         $args = $request->route->getRequestArguments();
         $totp = $args['totp-code'];
-        if(UserContext::Instance()->userCredentials->totp->verifyTotp($totp)) {
-            UserContext::Instance()->userCredentials->totp->enableTotp();
+        if(UserContext::$Instance->userCredentials->totp->verifyTotp($totp)) {
+            UserContext::$Instance->userCredentials->totp->enableTotp();
             return new RedirectHttpResult('/dashboard/user/settings/mfa/totp');
         } else {
             return new ViewHttpResult('EnableUserMfaTotpView',
@@ -52,8 +52,8 @@ class UserMfaController extends Controller {
         $totp = $args['totp-code'];
         $renewSecrets = $args['renew-secrets'];
         Log::Object(__FILE__, $renewSecrets);
-        if(UserContext::Instance()->userCredentials->totp->verifyTotp($totp)) {
-            UserContext::Instance()->userCredentials->totp->disableTotp($renewSecrets == Defaults::YES);
+        if(UserContext::$Instance->userCredentials->totp->verifyTotp($totp)) {
+            UserContext::$Instance->userCredentials->totp->disableTotp($renewSecrets == Defaults::YES);
             return new RedirectHttpResult('/dashboard/user/settings/mfa/totp');
         } else {
             return new ViewHttpResult('DisableUserMfaTotpView',

@@ -8,8 +8,7 @@ class ChangeUserPasswordDashboardItem extends DashboardItem {
             'User settings',
             'settings',
             '/dashboard/user/settings/password',
-            'ChangeUserPasswordView',
-            [ new NonePrivilege() ]
+            'ChangeUserPasswordView'
         );
     }
 

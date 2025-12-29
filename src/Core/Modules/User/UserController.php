@@ -63,7 +63,7 @@ class UserController extends Controller {
             }
         }
 
-        if(!UserContext::Instance()->authenticate($username, $password)) {
+        if(!UserContext::$Instance->authenticate($username, $password)) {
             return new ViewHttpResult('LoginView',
                 [
                     'status' => LoginView::StatusInvalidLogin
@@ -188,6 +188,7 @@ class UserController extends Controller {
         }
 
         UserModel::GetByUid($recovery->userUid)->updatePassword($pwd);
+        $recovery->update('status', UserPasswordRecoveryModel::StatusRecovered);
 
         return new ViewHttpResult('PasswordRecoveryView',
             [

@@ -1,5 +1,6 @@
 <?php
 
+include_once('inc/EventBus.php');
 include_once('inc/Crypto.php');
 include_once('inc/Csp.php');
 include_once('inc/Cors.php');
@@ -55,15 +56,25 @@ class Core {
 
     public function init(): void {
 
+        // Register events
+        $this->registerEvents();
+
+        EventBus::Raise(new Event($this, 'core-pre-init', [ 'core' => $this ]));
+
         /* Session is singleton.
          * PHP-session must start before any client output (header, stdout etc.).
          */
         new Session()->init();
 
+        EventBus::Raise(new Event($this, 'session-init', [ 'session' => Session::$Instance ]));
+
         $this->errorHandler->init();
         $this->router->init();
         $this->assetsManager->init();
         $this->themeManager->init();
+
+        /* All build-in app logic is inside /Core/Modules-folder. */
+        Helper::IncludeOnce(Defaults::ABSPATH . '/Core/Modules/Dashboard', true);
 
         /* All build-in app logic is inside /Core/Modules-folder. */
         Helper::IncludeOnce(Defaults::ABSPATH . '/Core/Modules', true);
@@ -78,9 +89,10 @@ class Core {
         $this->setup->init();
 
         // After all is set up and running, init the UserContext
-        UserContext::Instance();
+        new UserContext()->init();
+        new Dashboard()->init();
 
-        Dashboard::Instance();
+        EventBus::Raise(new Event($this, 'core-init', [ 'core' => $this ]));
 
 //        Log::Info(__FILE__, "Core initialized [version=%s]", Defaults::VERSION);
     }
@@ -123,5 +135,12 @@ class Core {
         } catch (Throwable $e) {
             $this->errorHandler->handleException($e);
         }
+    }
+
+    private function registerEvents(): void {
+        EventBus::RegisterEvent(new Event($this, 'core-pre-init', [ 'core' => Core::class ], 'Raised when core is initializing.'));
+        EventBus::RegisterEvent(new Event($this, 'core-init', [ 'core' => Core::class ], 'Raised when core is initialized.'));
+        EventBus::RegisterEvent(new Event($this, 'session-init', [ 'session' => Session::class ], 'Raised when session is initialized.'));
+        EventBus::RegisterEvent(new Event($this, 'usercontext-init', [ 'usercontext' => UserContext::class ], 'Raised when user-context is initialized.'));
     }
 }

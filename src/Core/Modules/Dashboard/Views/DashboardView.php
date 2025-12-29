@@ -4,12 +4,12 @@ class DashboardView extends View {
 
     public function render(): void {
 
-        $user = UserContext::Instance()->user;
+        $user = UserContext::$Instance->user;
         ?>
         <div class="uk-section">
             <div class="uk-container">
                 <div>
-                    <?php foreach (Dashboard::Instance()->getDashboardItemCategories() as $categoryName => $items) : ?>
+                    <?php foreach (Dashboard::$Instance->getDashboardItemCategories() as $categoryName => $items) : ?>
                         <h2><?= $categoryName ?></h2>
                         <div uk-grid uk-height-match="target: .uk-card; row: false">
                             <?php foreach ($items as $item) : ?>

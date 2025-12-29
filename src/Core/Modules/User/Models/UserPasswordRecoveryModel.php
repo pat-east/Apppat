@@ -22,8 +22,12 @@ class UserPasswordRecoveryModel extends DatabaseModel {
         return self::GetBy('uid', $uid);
     }
 
-    public static function GetByRecoveryToken(string $recoveryToken): UserPasswordRecoveryModel|null {
-        return self::GetBy('recovery_token', $recoveryToken);
+    public static function GetByRecoveryToken(string $recoveryToken, string $status = self::StatusNew): UserPasswordRecoveryModel|null {
+        $recovery = Capsule::table(self::TableName)
+            ->where('recovery_token', $recoveryToken)
+            ->where('status', $status)
+            ->first();
+        return $recovery ? new UserPasswordRecoveryModel($recovery) : null;
     }
 
     public static function CreateRecovery(string $userUid, string $username, string $email,
@@ -72,6 +76,11 @@ class UserPasswordRecoveryModel extends DatabaseModel {
         }
     }
 
+    public function update(string $field, mixed $value): void {
+        Capsule::table(self::TableName)
+            ->where('uid', $this->uid)
+            ->update([$field => $value, 'updated_at' => new DateTime()]);
+    }
 
     protected function createTable(): void {
         Capsule::schema()->create(self::TableName, function ($table) {

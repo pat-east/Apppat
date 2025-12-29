@@ -15,4 +15,8 @@ class HtmlDivShortcode extends Shortcode {
         <?php
         return ob_get_clean();
     }
+
+    function getDefaultArgs(): array {
+        return [];
+    }
 }

@@ -3,7 +3,7 @@
 class UserMfaTotpSettingsView extends View {
 
     public function render(): void {
-        if(UserContext::Instance()->userCredentials->totp->mfaTotpEnabled()) {
+        if(UserContext::$Instance->userCredentials->totp->mfaTotpEnabled()) {
             $this->renderEnabled();
         } else {
             $this->renderNotEnabled();

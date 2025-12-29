@@ -1,10 +1,14 @@
 <?php
 
+Helper::IncludeOnce(__DIR__, '/../Traits/');
+
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Random\RandomException;
 
 
 class UserModel extends DatabaseModel {
+
+    use UserTrait;
 
     const string TableName = 'web_users';
 
@@ -82,12 +86,6 @@ class UserModel extends DatabaseModel {
         return self::GetByUsername($username);
     }
 
-    var string $uid;
-    var string $username;
-    var string $email;
-    var ?string $roles;
-    var bool $totpEnabled;
-
     public function __construct($user = null) {
         parent::__construct(self::TableName);
 
@@ -100,7 +98,7 @@ class UserModel extends DatabaseModel {
         }
     }
 
-    public function update(string $field, $value): void {
+    public function update(string $field, mixed $value): void {
         Capsule::table(self::TableName)
             ->where('username', $this->username)
             ->update([$field => $value, 'updated_at' => new DateTime()]);
@@ -138,9 +136,8 @@ class UserModel extends DatabaseModel {
 
     public function updatePassword(string $password): void {
         $this->update("password", password_hash($password, PASSWORD_DEFAULT));
-        $expiration = new DateTime();
         $this->update("password_expires_at",
-            (new DateTime())->add(new DateInterval('P'.Config::$AppConfig->PasswordExpirationInDays.'D')));
+            new DateTime()->add(new DateInterval('P'.Config::$AppConfig->PasswordExpirationInDays.'D')));
     }
 
     /**

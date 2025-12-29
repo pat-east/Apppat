@@ -5,7 +5,7 @@ class EnableUserMfaTotpView extends View {
     public const string StatusInvalidTotp = 'invalid_totp';
 
     public function render(): void {
-        if(UserContext::Instance()->userCredentials->totp->mfaTotpEnabled()) {
+        if(UserContext::$Instance->userCredentials->totp->mfaTotpEnabled()) {
             $this->renderAlreadyEnabled();
         } else {
             $this->renderEnable();
@@ -14,9 +14,9 @@ class EnableUserMfaTotpView extends View {
 
     private function renderEnable(): void {
         $status = $this->responseArgs['status'] ?? '';
-        $provisioningUri = UserContext::Instance()->userCredentials->totp->getProvisioningUri();
+        $provisioningUri = UserContext::$Instance->userCredentials->totp->getProvisioningUri();
         $provisioningQrCodeBase64 = base64_encode(QrCode::Create($provisioningUri));
-        $recoveryKey = UserContext::Instance()->userCredentials->totp->getRecoveryKey();
+        $recoveryKey = UserContext::$Instance->userCredentials->totp->getRecoveryKey();
         ?>
         <div class="uk-section">
             <div class="uk-container">

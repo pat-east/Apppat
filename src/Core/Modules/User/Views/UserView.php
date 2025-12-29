@@ -35,7 +35,7 @@ class UserView extends View {
                 </div>
             </div>
         </div>
-        <?php if(UserContext::Instance()->hasPrivilege(EditUsersPrivilege::class)) : ?>
+        <?php if(UserContext::$Instance->hasPrivilege(EditUsersPrivilege::class)) : ?>
             <?php $this->renderEditUser($user); ?>
         <?php endif; ?>
         <?php

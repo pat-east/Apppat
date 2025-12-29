@@ -15,12 +15,17 @@ class DashboardController extends Controller {
         parent::__construct($core);
 
         self::$Instance = $this;
+
+        EventBus::On(new EventHandler('core-init', [ $this, 'onInit' ] ));
+    }
+
+    public function onInit(array $args): void {
         $this->registerRoute(new ViewRoute('/dashboard',
-            UserContext::Instance()->isUserLoggedIn ? 'DashboardView' : 'LoginView'));
+            UserContext::$Instance->isUserLoggedIn ? 'DashboardView' : 'LoginView'));
     }
 
     public function registerDashboardItemRoute(DashboardItem $dashboardItem) {
         $this->registerRoute(new ViewRoute($dashboardItem->link,
-            UserContext::Instance()->isUserLoggedIn ? $dashboardItem->viewClassName : 'LoginView'));
+            UserContext::$Instance->isUserLoggedIn ? $dashboardItem->viewClassName : 'LoginView'));
     }
 }

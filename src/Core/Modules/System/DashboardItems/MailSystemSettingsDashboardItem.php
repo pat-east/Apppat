@@ -8,8 +8,7 @@ class MailSystemSettingsDashboardItem extends DashboardItem {
             'Mail settings',
             'mail',
             '/dashboard/system/settings/mail',
-            'MailSystemSettingsView',
-            [ new SysConfigPrivilege() ]
+            'MailSystemSettingsView'
         );
     }
 

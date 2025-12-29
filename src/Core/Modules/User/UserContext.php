@@ -2,14 +2,7 @@
 
 class UserContext {
 
-    private static ?UserContext $Instance = null;
-
-    public static function Instance(): UserContext {
-        if(self::$Instance) {
-            return self::$Instance;
-        }
-        return self::$Instance = new UserContext();
-    }
+    public static ?UserContext $Instance = null;
 
     public bool $isUserLoggedIn = false;
 
@@ -23,7 +16,9 @@ class UserContext {
 
     public UserRoles $userRoles;
 
-    private function __construct() {
+    public Crm $crm;
+
+    public function __construct() {
         if(self::$Instance != null) {
             return;
         }
@@ -31,7 +26,22 @@ class UserContext {
         $this->session = Session::$Instance;
         self::$Instance = $this;
 
-        $this->init();
+    }
+
+    public function init(): void {
+        $this->user = new UserModel();
+
+        if($userUid = $this->session->getUserUid()) {
+            if($user = UserModel::GetByUid($userUid)) {
+                $this->user = $user;
+                $this->userEncryption = new UserEncryption($this->user);
+                $this->userCredentials = new UserCredentials($this->user);
+                $this->userRoles = new UserRoles($this->user);
+                $this->isUserLoggedIn = true;
+                $this->crm = new Crm($this->user);
+            }
+
+        }
     }
 
     public function authenticate(string $usernameOrEmail, string $password): bool {
@@ -79,20 +89,5 @@ class UserContext {
         }
 
         return true;
-    }
-
-    private function init() {
-        $this->user = new UserModel();
-
-        if($userUid = $this->session->getUserUid()) {
-            if($user = UserModel::GetByUid($userUid)) {
-                $this->user = $user;
-                $this->userEncryption = new UserEncryption($this->user);
-                $this->userCredentials = new UserCredentials($this->user);
-                $this->userRoles = new UserRoles($this->user);
-                $this->isUserLoggedIn = true;
-            }
-
-        }
     }
 }

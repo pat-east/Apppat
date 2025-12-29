@@ -9,11 +9,9 @@ class MailSystemSettingsView extends View {
     public function render(): void {
         $status = $this->responseArgs['status'] ?? '';
         ?>
-        <div class="uk-section">
+        <div class="uk-section uk-section-muted">
             <div class="uk-container">
-                <h1>Mailing</h1>
-
-                <h2>Test</h2>
+                <h2>Send test mail</h2>
                 <?php if($status == self::STATUS_TEST_MAIL_FAILED) : ?>
                     [html-callout message="Could not send mail"]
                 <?php elseif($status == self::STATUS_TEST_MAIL_SUCCESS) : ?>
@@ -31,9 +29,10 @@ class MailSystemSettingsView extends View {
                         <button type="submit" class="uk-button uk-button-primary">Send test mail</button>
                     </div>
                 </form>
-
-
-
+            </div>
+        </div>
+        <div class="uk-section">
+            <div class="uk-container">
 
                 <h2>SMTP</h2>
                 [html-callout message="SMTP settings are configured using .env"]

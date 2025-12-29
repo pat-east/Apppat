@@ -9,26 +9,22 @@ abstract class DashboardItem {
     public string $viewClassName;
 
     /** @var string[] Array of class-names of UserPrivilege */
-    private array $requiredUserPrivileges = [];
+    private array $requiredUserPrivilegesUids = [];
 
-    /**
-     * @param UserPrivilege[] $requiredUserPrivileges
-     */
     public function __construct(string $title, string $description,
                                 string $category, string $icon,
-                                string $link, string $viewClassName,
-                                array $requiredUserPrivileges) {
+                                string $link, string $viewClassName) {
         $this->title = $title;
         $this->description = $description;
         $this->category = $category;
         $this->icon = $icon;
         $this->link = $link;
         $this->viewClassName = $viewClassName;
-        $this->requiredUserPrivileges = $requiredUserPrivileges;
+        $this->requiredUserPrivilegesUids = $this->getRequiredPrivilegeUids();
     }
 
     public function getRequiredPrivilegeUids(): array {
-        return array_map(function($privilege) { return $privilege->getUid(); }, $this->requiredUserPrivileges);
+        return $this->requiredUserPrivilegesUids;
     }
 
     public function init(): void {
@@ -44,7 +40,7 @@ abstract class DashboardItem {
             return $privilege->getUid();
         }, $userPrivileges);
 
-        if(in_array(new NonePrivilege()->getUid(), $userPrivsUids)) {
+        if(in_array(new NonePrivilege()->getUid(), $this->requiredUserPrivilegesUids)) {
             return true;
         }
 

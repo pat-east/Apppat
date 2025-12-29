@@ -8,8 +8,7 @@ class UsersDashboardItem extends DashboardItem {
             'User settings',
             'users',
             '/dashboard/user',
-            'UsersView',
-            [ new UserProfilePrivilege() ]
+            'UsersView'
         );
     }
 

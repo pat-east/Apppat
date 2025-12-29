@@ -8,8 +8,7 @@ class ManageMfaTotpDashboardItem extends DashboardItem {
             'User settings',
             'settings',
             '/dashboard/user/settings/mfa/totp',
-            'UserMfaTotpSettingsView',
-            [ new UserProfilePrivilege() ]
+            'UserMfaTotpSettingsView'
         );
     }
 

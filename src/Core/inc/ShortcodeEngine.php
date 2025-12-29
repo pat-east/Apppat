@@ -18,7 +18,11 @@ class ShortcodeEngine {
                 if (!empty($m['attrs'])) {
                     if (preg_match_all($attrPattern, $m['attrs'], $am, PREG_SET_ORDER)) {
                         foreach ($am as $a) {
-                            $attrs[$a[1]] = $a[2] !== '' ? $a[2] : ($a[3] !== '' ? $a[3] : $a[4]);
+                            $attrs[$a[1]] =
+                                $a[2] !== ''
+                                    ? $a[2] : ((isset($a[3]) && $a[3] !== '')
+                                        ? $a[3] : (isset($a[4]) && $a[4]
+                                            ? $a[4] : ''));
                         }
                     }
                 }

@@ -86,7 +86,7 @@ class UikitTheme extends Theme
     }
 
     function renderUserBar(): void {
-        $userContext = UserContext::Instance();
+        $userContext = UserContext::$Instance;
         if($userContext->isUserLoggedIn) {
             $this->renderLoggedInBar();
         } else {
@@ -116,7 +116,7 @@ class UikitTheme extends Theme
     }
 
     function renderLoggedInBar(): void {
-        $userContext = UserContext::Instance();
+        $userContext = UserContext::$Instance;
         ?>
         <div class="uk-section uk-section-secondary uk-padding-remove-top uk-padding-remove-bottom">
             <div class="uk-container">
