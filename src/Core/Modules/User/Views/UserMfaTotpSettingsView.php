@@ -2,6 +2,14 @@
 
 class UserMfaTotpSettingsView extends View {
 
+    public function getBreadcrumbItems(): array {
+        return [
+            [ 'label' => 'Dashboard', 'href' => '/dashboard' ],
+            [ 'label' => 'User', 'href' => null ],
+            [ 'label' => 'MFA / TOTP', 'href' => null ],
+        ];
+    }
+
     public function render(): void {
         if(UserContext::$Instance->userCredentials->totp->mfaTotpEnabled()) {
             $this->renderEnabled();

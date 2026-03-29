@@ -9,6 +9,7 @@ class KernuxTheme extends Theme {
     }
 
     public function render(View $view): void {
+        $this->renderBreadcrumbs($view);
         $view->render();
     }
 }

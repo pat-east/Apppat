@@ -6,6 +6,14 @@ class MailSystemSettingsView extends View {
     public const string STATUS_TEST_MAIL_SUCCESS = 'test_mail_success';
     public const string STATUS_TEST_MAIL_FAILED = 'test_mail_failed';
 
+    public function getBreadcrumbItems(): array {
+        return [
+            [ 'label' => 'Dashboard', 'href' => '/dashboard' ],
+            [ 'label' => 'Administration', 'href' => null ],
+            [ 'label' => 'Mail Settings', 'href' => null ],
+        ];
+    }
+
     public function render(): void {
         $status = $this->responseArgs['status'] ?? '';
         ?>

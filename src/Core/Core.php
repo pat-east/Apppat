@@ -16,6 +16,7 @@ include_once('inc/Sanitize.php');
 include_once('inc/Router.php');
 include_once('inc/MiddlewareEngine.php');
 include_once('inc/ErrorHandler.php');
+include_once('inc/CliCommandManager.php');
 include_once('inc/AssetManager.php');
 include_once('inc/ThemeManager.php');
 include_once('inc/ModelManager.php');
@@ -33,6 +34,7 @@ class Core {
     var ThemeManager $themeManager;
     var ModelManager $modelManager;
     var ControllerManager $controllerManager;
+    var CliCommandManager $cliCommandManager;
     var Setup $setup;
     var MiddlewareEngine $middlewareEngine;
 
@@ -50,16 +52,13 @@ class Core {
         $this->modelManager = new ModelManager();
         $this->middlewareEngine = new MiddlewareEngine();
         $this->controllerManager = new ControllerManager();
+        $this->cliCommandManager = new CliCommandManager();
         $this->setup = new Setup($this);
 
     }
 
     public function init(): void {
-
-        // Register events
-        $this->registerEvents();
-
-        EventBus::Raise(new Event($this, 'core-pre-init', [ 'core' => $this ]));
+        $this->initBase();
 
         /* Session is singleton.
          * PHP-session must start before any client output (header, stdout etc.).
@@ -68,18 +67,11 @@ class Core {
 
         EventBus::Raise(new Event($this, 'session-init', [ 'session' => Session::$Instance ]));
 
-        $this->errorHandler->init();
         $this->router->init();
         $this->assetsManager->init();
         $this->themeManager->init();
 
-        /* All build-in app logic is inside /Core/Modules-folder. */
-        Helper::IncludeOnce(Defaults::ABSPATH . '/Core/Modules/Dashboard', true);
-
-        /* All build-in app logic is inside /Core/Modules-folder. */
-        Helper::IncludeOnce(Defaults::ABSPATH . '/Core/Modules', true);
-        /* All the app logic is inside /App-folder. */
-        Helper::IncludeOnce(Defaults::ABSPATH . '/App/', true);
+        $this->includeApplicationCode();
 
         // And now we initialize those ...
         $this->modelManager->init();
@@ -93,8 +85,26 @@ class Core {
         new Dashboard()->init();
 
         EventBus::Raise(new Event($this, 'core-init', [ 'core' => $this ]));
+    }
 
-//        Log::Info(__FILE__, "Core initialized [version=%s]", Defaults::VERSION);
+    public function initCli(): void {
+        $this->initBase();
+
+        $this->includeApplicationCode();
+
+        $this->modelManager->init();
+        $this->cliCommandManager->init();
+
+        EventBus::Raise(new Event($this, 'core-init', [ 'core' => $this ]));
+    }
+
+    public function runCli(array $argv): int {
+        // Register events
+        try {
+            return $this->cliCommandManager->run($argv);
+        } catch (Throwable $e) {
+            $this->errorHandler->handleException($e);
+        }
     }
 
     public function run(): void {
@@ -142,5 +152,23 @@ class Core {
         EventBus::RegisterEvent(new Event($this, 'core-init', [ 'core' => Core::class ], 'Raised when core is initialized.'));
         EventBus::RegisterEvent(new Event($this, 'session-init', [ 'session' => Session::class ], 'Raised when session is initialized.'));
         EventBus::RegisterEvent(new Event($this, 'usercontext-init', [ 'usercontext' => UserContext::class ], 'Raised when user-context is initialized.'));
+    }
+
+    private function initBase(): void {
+        $this->registerEvents();
+
+        EventBus::Raise(new Event($this, 'core-pre-init', [ 'core' => $this ]));
+
+        $this->errorHandler->init();
+    }
+
+    private function includeApplicationCode(): void {
+        /* All build-in app logic is inside /Core/Modules-folder. */
+        Helper::IncludeOnce(Defaults::ABSPATH . '/Core/Modules/Dashboard', true);
+
+        /* All build-in app logic is inside /Core/Modules-folder. */
+        Helper::IncludeOnce(Defaults::ABSPATH . '/Core/Modules', true);
+        /* All the app logic is inside /App-folder. */
+        Helper::IncludeOnce(Defaults::ABSPATH . '/App/', true);
     }
 }

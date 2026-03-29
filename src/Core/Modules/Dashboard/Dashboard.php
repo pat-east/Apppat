@@ -31,7 +31,9 @@ class Dashboard {
                 /** @var DashboardItem $itemInstance */
                 $itemInstance = new $item();
 
-                if(!$itemInstance->isAccessable($userPrivileges))
+                if(!$itemInstance->isAccessable($userPrivileges)) {
+                    continue;
+                }
 
                 if(!array_key_exists($itemInstance->category, $categories)) {
                     $categories[$itemInstance->category] = [];

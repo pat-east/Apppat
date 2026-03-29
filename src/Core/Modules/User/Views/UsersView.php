@@ -2,6 +2,14 @@
 
 class UsersView extends View {
 
+    public function getBreadcrumbItems(): array {
+        return [
+            [ 'label' => 'Dashboard', 'href' => '/dashboard' ],
+            [ 'label' => 'Administration', 'href' => null ],
+            [ 'label' => 'Users', 'href' => null ],
+        ];
+    }
+
     public function render(): void {
 
         ?>

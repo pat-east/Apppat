@@ -2,15 +2,21 @@
 
 class CrmView extends View {
 
+    public function getBreadcrumbItems(): array {
+        return [
+            [ 'label' => 'Dashboard', 'href' => '/dashboard' ],
+            [ 'label' => 'User', 'href' => null ],
+            [ 'label' => 'CRM', 'href' => null ],
+        ];
+    }
+
     public function render(): void {
         $entity = UserContext::$Instance->crm->commonEntity;
         ?>
-
         <div class="uk-section uk-section-muted">
             <div class="uk-container">
                 <div class="">
                     <?php $this->renderCommonEntity(); ?>
-
                 </div>
             </div>
         </div>

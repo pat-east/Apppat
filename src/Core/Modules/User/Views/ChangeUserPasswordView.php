@@ -3,6 +3,14 @@
 class ChangeUserPasswordView extends View {
     public const string StatusInvalidPassword = 'invalid_pwd';
 
+    public function getBreadcrumbItems(): array {
+        return [
+            [ 'label' => 'Dashboard', 'href' => '/dashboard' ],
+            [ 'label' => 'User', 'href' => null ],
+            [ 'label' => 'Change Password', 'href' => null ],
+        ];
+    }
+
     public function render(): void {
         $status = $this->responseArgs['status'] ?? '';
         ?>

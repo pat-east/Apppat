@@ -39,6 +39,7 @@ class SetupTheme extends Theme
 
     function renderContent(View $view): void {
         ?>
+        <?php $this->renderBreadcrumbs($view); ?>
         <?php $view->render(); ?>
         <?php
     }

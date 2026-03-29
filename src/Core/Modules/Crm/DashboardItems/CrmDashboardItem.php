@@ -1,6 +1,6 @@
 <?php
 
-class CrmDashboardItems extends DashboardItem {
+class CrmDashboardItem extends DashboardItem {
 
     public function __construct() {
         parent::__construct(

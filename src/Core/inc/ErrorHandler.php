@@ -47,6 +47,10 @@ class ErrorHandler {
 
     public function handleError(int $errno, string $errstr, string $errfile, int $errline): never {
         Log::Error(__FILE__, sprintf('%s [%s:%s]', $errstr, $errfile, $errline));
+        if(PHP_SAPI === 'cli') {
+            fwrite(STDERR, sprintf("ERROR: %s [%s:%s]\n", $errstr, $errfile, $errline));
+            exit(1);
+        }
         http_response_code(500);
         include_once(Defaults::ABSPATH . '/Views/500.php');
         exit;

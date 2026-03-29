@@ -10,6 +10,13 @@ abstract class View {
         $this->responseArgs = $responseArgs;
     }
 
+    /**
+     * @return array<int, array{label:string,href:?string}>
+     */
+    public function getBreadcrumbItems(): array {
+        return [];
+    }
+
     abstract public function render(): void;
 
 }

@@ -79,10 +79,24 @@ class CrmController extends Controller {
                 }
                 break;
             case 'address':
-                $e = UserContext::$Instance->crm->commonEntity;
-                $e->id = $args['id'];
-                $e->entityId = $args['id'];
-                $e->contactId = $args['address-id'];
+                $e = UserContext::$Instance->crm->getEntityByType($args['type']);
+                $e->id = $args['id'] ?: $e->id;
+                $e->entityId = $e->id;
+                $e->userUid = UserContext::$Instance->user->uid;
+                $e->typeUid = $args['type'];
+                $e->title = $args['title'];
+                $e->birthdate = $args['birthdate'] ? new DateTime($args['birthdate']) : null;
+                $e->salutation = $args['salutation'];
+                $e->firstname = $args['firstname'];
+                $e->name = $args['name'];
+                $e->vatId = $args['vatid'];
+                $e->contactId = $args['contact-id'] ?: $e->contactId;
+                $e->phone = $args['phone'];
+                $e->mobile = $args['mobile'];
+                $e->email = $args['email'];
+                $e->www = $args['www'];
+                $e->fax = $args['fax'];
+                $e->addressId = $args['address-id'] ?: $e->addressId;
                 $e->street = $args['street'];
                 $e->street_hno = $args['street_hno'];
                 $e->zip = $args['zip'];
@@ -92,15 +106,21 @@ class CrmController extends Controller {
                 $e->region = $args['region'];
 
                 if($args['method'] == 'update') {
-                    UserContext::$Instance->crm->updateCommonEntity($e);
+                    if($e->id) {
+                        UserContext::$Instance->crm->updateEntity($e);
+                    } else {
+                        UserContext::$Instance->crm->createEntity($e);
+                    }
                 } else if($args['method'] == 'create') {
-                    UserContext::$Instance->crm->createCommonEntity($e);
+                    UserContext::$Instance->crm->createEntity($e);
                 }
                 break;
         }
 
 
-
+        if($args['branch'] == 'address') {
+            return new RedirectHttpResult('/dashboard/user/crm/billing/manage');
+        }
         return new RedirectHttpResult('/dashboard/user/crm/manage');
     }
 }

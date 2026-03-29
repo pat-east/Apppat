@@ -23,4 +23,13 @@ class Bootstrapper {
         return $core;
     }
 
+    public function bootCli(): Core {
+        new Defaults()->init();
+        new Config()->init();
+        new Logger()->init();
+        $core = new Core();
+        $core->initCli();
+        return $core;
+    }
+
 }
